@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5404028522254259990}
   - component: {fileID: 6044906336974238011}
   - component: {fileID: 9089023263193102773}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 5166590995036871899}
   - component: {fileID: 7464199632820948801}
   - component: {fileID: 167272845904252945}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,9 +219,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3903333442881064677}
-  m_Layer: 0
+  - component: {fileID: -8333516604395984970}
+  m_Layer: 8
   m_Name: Enemy9
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -245,6 +246,23 @@ Transform:
   - {fileID: 6821703439835344254}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8333516604395984970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2718547949902534239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff40c5db154a46e45879de7d2402bb48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wayPointsObject: {fileID: 0}
+  currentPoint: 0
+  speed: 0
+  hp: 0
+  shieldHp: 0
 --- !u!1 &3936656287693512539
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +275,7 @@ GameObject:
   - component: {fileID: 1075096016394713568}
   - component: {fileID: 9112114419538227364}
   - component: {fileID: 856259138346457155}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,7 +382,7 @@ GameObject:
   - component: {fileID: 1804977911441521874}
   - component: {fileID: 1885642215949406918}
   - component: {fileID: 3088022023663821134}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

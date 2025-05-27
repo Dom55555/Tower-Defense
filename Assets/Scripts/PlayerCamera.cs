@@ -7,10 +7,14 @@ public class PlayerCamera : MonoBehaviour
     public float mouseSensitivity = 100f;
     public float maxSpeed = 5f;
 
+    public LayerMask enemyLayer;
+    public GameObject enemyInfoPrefab;
+
     private float xRotation = 0f;
     private float yRotation = 0f;
 
     private float speed = 0;
+    private GameObject chosenEnemyInfo = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,14 +24,6 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(UIFunctions.instance.freezeCameraRotation)
-        {
-            return;
-        }
-        else
-        {
-
-        }
         if (!UIFunctions.instance.freezeCameraRotation)
         {
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -51,6 +47,28 @@ public class PlayerCamera : MonoBehaviour
             pos.x = Mathf.Clamp(pos.x,-5f,32f);
             pos.z = Mathf.Clamp(pos.z,-20f,32f);
             transform.position = pos;
+        }
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f,enemyLayer))
+        {
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                if(chosenEnemyInfo==null || chosenEnemyInfo.GetComponent<EnemyUI>().enemyTransform != hit.collider.transform.parent)
+                {
+                    if (chosenEnemyInfo != null) Destroy(chosenEnemyInfo);
+                    Destroy(chosenEnemyInfo);
+                    chosenEnemyInfo = Instantiate(enemyInfoPrefab,hit.collider.transform.position,Quaternion.identity);
+                    chosenEnemyInfo.GetComponent<EnemyUI>().enemyTransform = hit.collider.transform.parent;
+                }
+            }
+        }
+        else
+        {
+            if(chosenEnemyInfo!=null)
+            {
+                Destroy(chosenEnemyInfo);
+                chosenEnemyInfo = null;
+            }
         }
 
     }

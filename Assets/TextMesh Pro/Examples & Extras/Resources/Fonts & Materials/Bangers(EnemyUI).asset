@@ -70,7 +70,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.512
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.90909094
@@ -118,11 +118,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Bangers SDF
+  m_Name: Bangers(EnemyUI)
   m_EditorClassIdentifier: 
-  hashCode: 2134875903
+  hashCode: -63943735
   material: {fileID: 2100000}
-  materialHashCode: -2079879681
+  materialHashCode: 1561015369
   m_Version: 1.1.0
   m_SourceFontFileGUID: 5dd49b3eacc540408c98eee0de38e0f1
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 5dd49b3eacc540408c98eee0de38e0f1,

@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6065145970807479341}
-  m_Layer: 0
+  - component: {fileID: -5896916596262166938}
+  m_Layer: 8
   m_Name: Enemy8
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,6 +40,23 @@ Transform:
   - {fileID: 7796739894427152520}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5896916596262166938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493332451322590564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff40c5db154a46e45879de7d2402bb48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wayPointsObject: {fileID: 0}
+  currentPoint: 0
+  speed: 0
+  hp: 0
+  shieldHp: 0
 --- !u!1 &953108275429895907
 GameObject:
   m_ObjectHideFlags: 0
@@ -51,7 +69,7 @@ GameObject:
   - component: {fileID: 6404905635804887732}
   - component: {fileID: 5359889116291066164}
   - component: {fileID: 1365556239931621210}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,7 +176,7 @@ GameObject:
   - component: {fileID: 4680475526361310503}
   - component: {fileID: 7866050835549610714}
   - component: {fileID: 7859732718884037659}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +281,7 @@ GameObject:
   - component: {fileID: 6919941395363179180}
   - component: {fileID: 7306288341667535069}
   - component: {fileID: 7752827993812252143}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +386,7 @@ GameObject:
   - component: {fileID: 7006573218564186641}
   - component: {fileID: 7843940575345553994}
   - component: {fileID: 8307101705529240750}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +491,7 @@ GameObject:
   - component: {fileID: 4288086183548612375}
   - component: {fileID: 6749897416949557965}
   - component: {fileID: 435960293690393618}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -580,7 +598,7 @@ GameObject:
   - component: {fileID: 4605538297917298809}
   - component: {fileID: 6389535392507680953}
   - component: {fileID: 8679893924143935598}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -687,7 +705,7 @@ GameObject:
   - component: {fileID: 4500351000043531510}
   - component: {fileID: 799040046639479782}
   - component: {fileID: 4648693926718644741}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -792,7 +810,7 @@ GameObject:
   - component: {fileID: 1898774591708521040}
   - component: {fileID: 676860613283854819}
   - component: {fileID: 1538610494793457294}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
