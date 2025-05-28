@@ -5,30 +5,35 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    [Header("To Set:")]
+    public Transform spawnPoint;
+    public Transform wayPointsObject;
+    public WaveData[] waves;
+    public TMP_Text timerText;
+    public TMP_Text waveText;
+    [Header("Other Variables:")]
     public int wave = 0;
     public float gameTimer = 5;
     public bool intermission = true;
-    public Transform spawnPoint;
 
-    public Transform wayPointsObject;
 
-    public WaveData[] waves;
+    public List<Enemy> enemiesOnMap = new List<Enemy>();
 
-    public TMP_Text timerText;
-    public TMP_Text waveText;
+    private bool allSpawned = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(CheckEnemies());
     }
     void Update()
     {
         gameTimer -= Time.deltaTime;
 
-        if (gameTimer <= 0 && !intermission)
+        if (!intermission && (gameTimer <= 0||(enemiesOnMap.Count==0&&allSpawned)))
         {
             intermission = true;
+            allSpawned = false;
             gameTimer = 5; 
         }
 
@@ -63,10 +68,31 @@ public class WaveManager : MonoBehaviour
                 slime.GetComponent<Enemy>().status = enemy.status;
                 slime.GetComponent<Enemy>().enemyName = enemy.name;
                 slime.GetComponent<Enemy>().wayPointsObject = wayPointsObject;
+                enemiesOnMap.Add(slime.GetComponent<Enemy>());
                 yield return new WaitForSeconds(enemy.spawnDelay);
             }
-
             yield return new WaitForSeconds(enemy.delayAfter);
+        }
+        allSpawned = true;
+    }
+    IEnumerator CheckEnemies()
+    {
+        while (true)
+        {
+            List<Enemy>toRemove= new List<Enemy>();
+            for (int i = enemiesOnMap.Count - 1; i >= 0; i--)
+            {
+                var enemy = enemiesOnMap[i];
+                if (enemy == null || enemy.hp <= 0)
+                {
+                    toRemove.Add(enemy);
+                }
+            }
+            foreach (Enemy enemy in toRemove)
+            {
+                enemiesOnMap.Remove(enemy);
+            }
+            yield return new WaitForSeconds(1);
         }
     }
 }

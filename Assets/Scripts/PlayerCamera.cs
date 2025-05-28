@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
+    [Header("Camera Settings")]
     public float mouseSensitivity = 100f;
     public float maxSpeed = 5f;
-
-    public LayerMask enemyLayer;
+    [Header("To Set:")]
+    public LayerMask EntityLayer;
     public GameObject enemyInfoPrefab;
+    public GameObject towerInfoPrefab;
 
     private float xRotation = 0f;
     private float yRotation = 0f;
 
     private float speed = 0;
-    private GameObject chosenEnemyInfo = null;
-    // Start is called before the first frame update
+    private GameObject chosenEntityInfo = null;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (!UIFunctions.instance.freezeCameraRotation)
@@ -49,27 +49,47 @@ public class PlayerCamera : MonoBehaviour
             transform.position = pos;
         }
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f,enemyLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f,EntityLayer))
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                if(chosenEnemyInfo==null || chosenEnemyInfo.GetComponent<EnemyUI>().enemyTransform != hit.collider.transform.parent)
+                if(chosenEntityInfo==null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.parent)
                 {
-                    if (chosenEnemyInfo != null) Destroy(chosenEnemyInfo);
-                    Destroy(chosenEnemyInfo);
-                    chosenEnemyInfo = Instantiate(enemyInfoPrefab,hit.collider.transform.position,Quaternion.identity);
-                    chosenEnemyInfo.GetComponent<EnemyUI>().enemyTransform = hit.collider.transform.parent;
+                    if (chosenEntityInfo != null) Destroy(chosenEntityInfo);
+                    chosenEntityInfo = Instantiate(enemyInfoPrefab,hit.collider.transform.position,Quaternion.identity);
+                    chosenEntityInfo.GetComponent<EntityUI>().entityTransform = hit.collider.transform.parent;
+                }
+            }
+            else if (hit.collider.CompareTag("Tower"))
+            {
+                if (chosenEntityInfo == null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.parent)
+                {
+                    if (chosenEntityInfo != null)
+                    {
+                        chosenEntityInfo.GetComponent<EntityUI>().entityTransform.transform.Find("Placement").GetComponent<MeshRenderer>().enabled = false;
+                        Destroy(chosenEntityInfo);
+                    }
+                    chosenEntityInfo = Instantiate(towerInfoPrefab, hit.collider.transform.position, Quaternion.identity);
+                    chosenEntityInfo.GetComponent<EntityUI>().entityTransform = hit.collider.transform.parent;
+                    chosenEntityInfo.GetComponent<EntityUI>().entityTransform.transform.Find("Placement").GetComponent<MeshRenderer>().enabled = true;
                 }
             }
         }
         else
         {
-            if(chosenEnemyInfo!=null)
+            if (chosenEntityInfo != null)
             {
-                Destroy(chosenEnemyInfo);
-                chosenEnemyInfo = null;
+                if(chosenEntityInfo.GetComponent<EntityUI>().entityTransform!=null)
+                {
+                    Transform placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
+                    if (placement != null)
+                    {
+                        placement.GetComponent<MeshRenderer>().enabled = false;
+                    }
+                }
+                Destroy(chosenEntityInfo);
+                chosenEntityInfo = null;
             }
         }
-
     }
 }

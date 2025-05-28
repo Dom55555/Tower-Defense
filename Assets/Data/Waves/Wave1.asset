@@ -19,7 +19,7 @@ MonoBehaviour:
     status: Normal
     speed: 2
     hp: 4
-    shieldHp: 5
+    shieldHp: 0
     amount: 4
     spawnDelay: 1
     delayAfter: 0

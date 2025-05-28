@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3891373249239522653}
   - component: {fileID: 3360403471123838704}
   m_Layer: 7
-  m_Name: ShieldBar
+  m_Name: ShieldFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000000059604645, y: 0.122}
+  m_AnchoredPosition: {x: 0.000000059604645, y: 0.126}
   m_SizeDelta: {x: 1.7854, y: 0.47675}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5819208392042670091
@@ -167,8 +167,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.2
-  m_fontSizeBase: 0.2
+  m_fontSize: 0.25
+  m_fontSizeBase: 0.25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -301,8 +301,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.14
-  m_fontSizeBase: 0.14
+  m_fontSize: 0.18
+  m_fontSizeBase: 0.18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 2661104049154439779}
   - component: {fileID: 7303049446687767397}
   m_Layer: 7
-  m_Name: HpBar
+  m_Name: HpFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 107122753875605344}
   - component: {fileID: 894671036775552875}
   m_Layer: 7
-  m_Name: Panel
+  m_Name: HpBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 720415637099681815}
   - component: {fileID: 7665751910352290471}
   m_Layer: 7
-  m_Name: Panel (2)
+  m_Name: ShieldBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -691,11 +691,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2d54fda58ec4e4799faea95bd04ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpText: {fileID: 3488652700167754724}
   nameText: {fileID: 6615983062863386509}
+  entityTransform: {fileID: 0}
+  hpText: {fileID: 3488652700167754724}
   shieldText: {fileID: 5604536114552933444}
   statusText: {fileID: 8493792428168555784}
-  enemyTransform: {fileID: 0}
   hpBarFill: {fileID: 1350488073731569351}
   shieldBarFill: {fileID: 2741327611865911212}
 --- !u!1 &7689775092985250931
@@ -710,7 +710,7 @@ GameObject:
   - component: {fileID: 6579918460838308927}
   - component: {fileID: 8493792428168555784}
   m_Layer: 7
-  m_Name: Status
+  m_Name: StatusBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -790,8 +790,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 16
+  m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -844,7 +844,7 @@ GameObject:
   - component: {fileID: 7570414735886397035}
   - component: {fileID: 1985628216846628159}
   m_Layer: 7
-  m_Name: Panel (4)
+  m_Name: StatusBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -999,8 +999,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.15
-  m_fontSizeBase: 0.15
+  m_fontSize: 0.2
+  m_fontSizeBase: 0.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

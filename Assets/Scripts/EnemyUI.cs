@@ -4,28 +4,26 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyUI : MonoBehaviour
+public class EnemyUI : EntityUI
 {
     public TMP_Text hpText;
-    public TMP_Text nameText;
     public TMP_Text shieldText;
     public TMP_Text statusText;
-    public Transform enemyTransform;
 
     public RectTransform hpBarFill;
     public RectTransform shieldBarFill;
 
     private Enemy enemy;
 
-    private void Start()
+    protected override void Start()
     {
-        enemy = enemyTransform.GetComponent<Enemy>();
+        enemy = entityTransform.GetComponent<Enemy>();
         nameText.text = enemy.enemyName;
         statusText.text = enemy.status;
     }
-    private void Update()
+    protected override void Update()
     {
-        transform.position = enemyTransform.position;
+        transform.position = entityTransform.position;
         transform.LookAt(Camera.main.transform);
         transform.Rotate(0, 180f, 0);
         hpText.text = enemy.hp + "/" + enemy.maxHp;
@@ -36,6 +34,10 @@ public class EnemyUI : MonoBehaviour
     }
     private void Bar(RectTransform bar,float maxSizeX,float minX, int valueCurrent, int valueMax, Color c1, Color c2, Color c3)
     {
+        if(valueMax==0)
+        {
+            return;
+        }
         float percent = (float)valueCurrent / valueMax;
         Vector2 barSize = bar.sizeDelta;
         barSize.x = percent * maxSizeX;

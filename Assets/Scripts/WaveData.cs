@@ -13,8 +13,8 @@ public class WaveData : ScriptableObject
         public int hp;
         public int shieldHp;
         public int amount;
-        public float spawnDelay; // delay between this enemy type's spawns
-        public float delayAfter; // delay before switching to the next type
+        public float spawnDelay;
+        public float delayAfter; 
 
     }
 

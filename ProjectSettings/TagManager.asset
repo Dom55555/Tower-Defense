@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Path
   - Enemy
+  - Tower
   layers:
   - Default
   - TransparentFX
@@ -14,11 +15,11 @@ TagManager:
   - Water
   - UI
   - Path
-  - SlimeUI
+  - InfoUI
   - Enemies
-  - 
-  - 
-  - 
+  - Hill
+  - Towers
+  - Trigger
   - 
   - 
   - 

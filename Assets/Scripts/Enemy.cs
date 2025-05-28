@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     public int shieldHp;
     public string enemyName;
     public string status;
+    public float distanceWalked = 0f;
 
 
     private Transform[] wayPoints;
@@ -30,7 +31,9 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
-        transform.position += transform.forward * speed*Time.deltaTime;
+        Vector3 movement = transform.forward * speed * Time.deltaTime;
+        transform.position += movement;
+        distanceWalked += movement.magnitude;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(wayPoints[currentPoint].position - transform.position),speed*Time.deltaTime);
         if (Vector3.Distance(transform.position, wayPoints[currentPoint].position) < 0.1f)
         {
