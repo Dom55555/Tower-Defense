@@ -5,8 +5,10 @@ using UnityEngine;
 public class UIFunctions : MonoBehaviour
 {
     public static UIFunctions instance;
+    public GameObject towerInfoPanel;
     public bool freezeCameraPosition = false;
     public bool freezeCameraRotation = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +22,7 @@ public class UIFunctions : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
-        if(Input.GetMouseButtonDown(0))
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        if(Input.GetKeyDown(KeyCode.T))
+        if(Input.GetKeyDown(KeyCode.T) && !TowerManager.instance.placingTower && !TowerManager.instance.chosenTower)
         {
             ToggleCameraAbove();
         }
@@ -38,5 +36,15 @@ public class UIFunctions : MonoBehaviour
             Camera.main.transform.position = new Vector3(14.5f,31,0);
             Camera.main.transform.rotation = Quaternion.Euler(90,180,-90);
         }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+    public void ToggleTowerInfo(bool state)
+    {
+        towerInfoPanel.SetActive(state);
+        freezeCameraRotation = state;
+        Cursor.lockState = state?CursorLockMode.None:CursorLockMode.Locked;
     }
 }

@@ -8,12 +8,15 @@ public class Tower : MonoBehaviour
 {
     public Animator animator;
     public List<Enemy> enemiesInRange = new List<Enemy>();
+    public TowerData towerInfo;
 
     public string mode = "First";
     public string towerName = "Scout";
     public int level = 1;
     public float firerate = 1f;
     public int damage = 4;
+    public bool canSeeHiddens = false;
+    public bool canSeeFlyings = false;
 
     public bool justPlaced;
 

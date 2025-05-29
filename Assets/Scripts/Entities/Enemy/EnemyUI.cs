@@ -23,6 +23,11 @@ public class EnemyUI : EntityUI
     }
     protected override void Update()
     {
+        if(entityTransform==null)
+        {
+            transform.gameObject.SetActive(false);
+            return;
+        }
         transform.position = entityTransform.position;
         transform.LookAt(Camera.main.transform);
         transform.Rotate(0, 180f, 0);
