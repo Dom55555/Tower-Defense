@@ -21,7 +21,6 @@ public class WaveManager : MonoBehaviour
 
     private bool allSpawned = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(CheckEnemies());
@@ -32,9 +31,9 @@ public class WaveManager : MonoBehaviour
 
         if (!intermission && (gameTimer <= 0||(enemiesOnMap.Count==0&&allSpawned)))
         {
+            gameTimer = 5; 
             intermission = true;
             allSpawned = false;
-            gameTimer = 5; 
         }
 
         if (gameTimer <= 0 && intermission)
@@ -74,6 +73,7 @@ public class WaveManager : MonoBehaviour
             yield return new WaitForSeconds(enemy.delayAfter);
         }
         allSpawned = true;
+        print("ALL SPAWNED");
     }
     IEnumerator CheckEnemies()
     {

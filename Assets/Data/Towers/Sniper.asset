@@ -12,8 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25e5f3194389e14ca238cda68f444b4, type: 3}
   m_Name: Sniper
   m_EditorClassIdentifier: 
-  towerName: 
-  placePrice: 0
-  towerPrefab: {fileID: 0}
+  towerName: Sniper
+  placePrice: 150
+  towerPrefab: {fileID: 6058665193692041983, guid: 8b2f54e0e26211b48b41d060e5378f76,
+    type: 3}
   extraPrefab: {fileID: 0}
-  levels: []
+  levels:
+  - price: 0
+    range: 18
+    damage: 5
+    firerate: 2
+    seeHidden: 0
+    seeFlying: 1
+  - price: 250
+    range: 20
+    damage: 5
+    firerate: 1.6
+    seeHidden: 0
+    seeFlying: 1
+  - price: 500
+    range: 20
+    damage: 10
+    firerate: 1.5
+    seeHidden: 0
+    seeFlying: 1
+  - price: 1250
+    range: 22
+    damage: 12
+    firerate: 1.4
+    seeHidden: 1
+    seeFlying: 1
+  - price: 2850
+    range: 26
+    damage: 20
+    firerate: 1
+    seeHidden: 1
+    seeFlying: 1

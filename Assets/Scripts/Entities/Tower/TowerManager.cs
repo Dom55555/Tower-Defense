@@ -48,6 +48,7 @@ public class TowerManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1)) selectedIndex = 0;
             else if (Input.GetKeyDown(KeyCode.Alpha2)) selectedIndex = 1;
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) selectedIndex = 2;
 
             if (selectedIndex != -1 && money >= towers[selectedIndex].placePrice)
             {
@@ -67,6 +68,12 @@ public class TowerManager : MonoBehaviour
             {
                 CancelPlacement();
                 selectedIndex = 1;
+                SetPreviewTower();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && selectedIndex != 2)
+            {
+                CancelPlacement();
+                selectedIndex = 2;
                 SetPreviewTower();
             }
             PreviewPlacement();
