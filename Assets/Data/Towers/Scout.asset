@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerName: Scout
   placePrice: 50
-  placingOnGround: 1
   towerPrefab: {fileID: 861270998405835193, guid: 141291abc079af24695376be93e71f22,
     type: 3}
   extraPrefab: {fileID: 0}

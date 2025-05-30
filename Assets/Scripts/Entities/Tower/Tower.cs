@@ -11,12 +11,15 @@ public class Tower : MonoBehaviour
     public TowerData towerInfo;
 
     public string mode = "First";
-    public string towerName = "Scout";
+    public string towerName;
     public int level = 1;
-    public float firerate = 1f;
-    public int damage = 4;
-    public bool canSeeHiddens = false;
-    public bool canSeeFlyings = false;
+    public float firerate;
+    public int damage;
+    public bool canSeeHiddens;
+    public bool canSeeFlyings;
+    public float rangeMult = 1;
+    public float firerateMult = 1;
+    public float priceMult = 1;
 
     public bool justPlaced;
 
@@ -24,7 +27,10 @@ public class Tower : MonoBehaviour
 
     void Start()
     {
-
+        damage = towerInfo.levels[level - 1].damage;
+        firerate = towerInfo.levels[level - 1].firerate;
+        canSeeHiddens = towerInfo.levels[level - 1].seeHidden;
+        canSeeFlyings = towerInfo.levels[level - 1].seeFlying;
     }
 
 
@@ -57,7 +63,11 @@ public class Tower : MonoBehaviour
                     {
                         enemiesToRemove.Add(enemy);
                     }
-                    if (enemy.distanceWalked > mostWalked)
+                    if (enemy.distanceWalked > mostWalked && (
+                        (canSeeHiddens&&enemy.status.Contains("Hidden"))||
+                        (!enemy.status.Contains("Hidden")&&enemy.status!="Flying")||
+                        (canSeeFlyings&&enemy.status=="Flying")
+                        ))
                     {
                         mostWalked = enemy.distanceWalked;
                         targetEnemy = enemy;
@@ -73,9 +83,9 @@ public class Tower : MonoBehaviour
                     {
                         enemiesToRemove.Add(enemy);
                     }
-                    if (enemy.hp>mostHp)
+                    if (enemy.hp+enemy.shieldHp>mostHp)
                     {
-                        mostHp = enemy.hp;
+                        mostHp = enemy.hp+enemy.shieldHp;
                         targetEnemy = enemy;
                     }
                 }
@@ -93,16 +103,35 @@ public class Tower : MonoBehaviour
         {
             if (targetEnemy != null)
             {
-                transform.LookAt(targetEnemy.transform);
-                transform.Rotate(0, 90f, 0);
-                animator.Play("Shoot");
-                targetEnemy.hp -= damage;
+                Vector3 direction = targetEnemy.transform.position - transform.position;
+                direction.y = 0;
+                transform.rotation = Quaternion.LookRotation(direction);
+                transform.Rotate(0,90,0);
+
+                animator.Play("Shoot", -1, 0f);
+                if (targetEnemy.shieldHp>0)
+                {
+                    if(targetEnemy.shieldHp>=damage)
+                    {
+                        targetEnemy.shieldHp -= damage;
+                    }
+                    else
+                    {
+                        int shieldDamageMade = targetEnemy.shieldHp;
+                        targetEnemy.shieldHp = 0;
+                        targetEnemy.hp -= damage - shieldDamageMade;
+                    }
+                }
+                else
+                {
+                    targetEnemy.hp -= damage;
+                }
                 if(targetEnemy.hp<=0)
                 {
                     enemiesInRange.Remove(targetEnemy);
                     Destroy(targetEnemy.gameObject);
                 }
-                yield return new WaitForSeconds(firerate);
+                yield return new WaitForSeconds(firerate*firerateMult);
                 targetEnemy = null;
             }
             else

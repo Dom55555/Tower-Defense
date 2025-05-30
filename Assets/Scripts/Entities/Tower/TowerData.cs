@@ -5,7 +5,6 @@ public class TowerData : ScriptableObject
 {
     public string towerName;
     public int placePrice;
-    public bool placingOnGround;
     public GameObject towerPrefab;
     public GameObject extraPrefab;
     [System.Serializable]

@@ -55,8 +55,13 @@ MonoBehaviour:
   wayPointsObject: {fileID: 0}
   currentPoint: 0
   speed: 0
+  maxHp: 0
+  maxShield: 0
   hp: 0
   shieldHp: 0
+  enemyName: 
+  status: 
+  distanceWalked: 0
 --- !u!1 &953108275429895907
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,7 +76,7 @@ GameObject:
   - component: {fileID: 1365556239931621210}
   m_Layer: 8
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,7 +183,7 @@ GameObject:
   - component: {fileID: 7859732718884037659}
   m_Layer: 8
   m_Name: Sphere (3)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -283,7 +288,7 @@ GameObject:
   - component: {fileID: 7752827993812252143}
   m_Layer: 8
   m_Name: Sphere (2)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -388,7 +393,7 @@ GameObject:
   - component: {fileID: 8307101705529240750}
   m_Layer: 8
   m_Name: Sphere (4)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -493,7 +498,7 @@ GameObject:
   - component: {fileID: 435960293690393618}
   m_Layer: 8
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -600,7 +605,7 @@ GameObject:
   - component: {fileID: 8679893924143935598}
   m_Layer: 8
   m_Name: Capsule (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -707,7 +712,7 @@ GameObject:
   - component: {fileID: 4648693926718644741}
   m_Layer: 8
   m_Name: Sphere (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -812,7 +817,7 @@ GameObject:
   - component: {fileID: 1538610494793457294}
   m_Layer: 8
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -14,6 +14,7 @@ public class TowerManager : MonoBehaviour
     public TMP_Text towerName;
     public TMP_Text levelText;
     public TMP_Text priceText;
+    public TMP_Text targetText;
     [Header("Current Level Stats Variables:")]
     public TMP_Text dmgText;
     public TMP_Text firerateText;
@@ -33,7 +34,7 @@ public class TowerManager : MonoBehaviour
 
     private GameObject previewTower;
     private Camera mainCam;
-
+    private int selectedIndex = -1;
 
     void Start()
     {
@@ -43,21 +44,31 @@ public class TowerManager : MonoBehaviour
 
     void Update()
     {
-        if (!placingTower && Input.GetKeyDown(KeyCode.Alpha1))
+        if (!placingTower)
         {
-            if (money >= towers[0].placePrice)
+            if (Input.GetKeyDown(KeyCode.Alpha1)) selectedIndex = 0;
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) selectedIndex = 1;
+
+            if (selectedIndex != -1 && money >= towers[selectedIndex].placePrice)
             {
-                placingTower = true;
-                previewTower = Instantiate(towers[0].towerPrefab);
-                previewTower.GetComponent<Tower>().justPlaced = false;
-                UIFunctions.instance.ToggleTowerInfo(false);
-                TowerDeselected();
-                SetLayerRecursive(previewTower.transform, LayerMask.NameToLayer("Ignore Raycast"));
+                SetPreviewTower();
             }
         }
 
         if (placingTower)
         {
+            if (Input.GetKeyDown(KeyCode.Alpha1) && selectedIndex != 0)
+            {
+                CancelPlacement();
+                selectedIndex = 0;
+                SetPreviewTower();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2)&& selectedIndex!=1)
+            {
+                CancelPlacement();
+                selectedIndex = 1;
+                SetPreviewTower();
+            }
             PreviewPlacement();
 
             if (Input.GetMouseButtonDown(0))
@@ -71,7 +82,15 @@ public class TowerManager : MonoBehaviour
         }
         moneyText.text = money+"$";
     }
-
+    private void SetPreviewTower()
+    {
+        placingTower = true;
+        previewTower = Instantiate(towers[selectedIndex].towerPrefab);
+        previewTower.GetComponent<Tower>().justPlaced = false;
+        UIFunctions.instance.ToggleTowerInfo(false);
+        TowerDeselected();
+        SetLayerRecursive(previewTower.transform, LayerMask.NameToLayer("Ignore Raycast"));
+    }
     private void PreviewPlacement()
     {
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -89,14 +108,10 @@ public class TowerManager : MonoBehaviour
             PlacementCheck check = previewTower.transform.Find("Placement").GetComponent<PlacementCheck>();
             if (check != null && check.IsValidPlacement)
             {
-                GameObject realTower = Instantiate(towers[0].towerPrefab, hit.point, Quaternion.identity);
+                GameObject realTower = Instantiate(towers[selectedIndex].towerPrefab, hit.point, Quaternion.identity);
                 realTower.GetComponent<Tower>().justPlaced = true;
-                money -= towers[0].placePrice;
+                money -= towers[selectedIndex].placePrice;
                 CancelPlacement();
-            }
-            else
-            {
-                Debug.Log("Invalid placement");
             }
         }
     }
@@ -104,6 +119,7 @@ public class TowerManager : MonoBehaviour
     {
         if (previewTower != null) Destroy(previewTower);
         placingTower = false;
+        selectedIndex = -1;
     }
     private void SetLayerRecursive(Transform obj, int layer)
     {
@@ -115,8 +131,8 @@ public class TowerManager : MonoBehaviour
     }
     public void UpgradeTower()
     {
-        TowerData.TowerLevel nextLevelInfo = chosenTower.towerInfo.levels[chosenTower.level];
         if (chosenTower.level == 5) return;
+        TowerData.TowerLevel nextLevelInfo = chosenTower.towerInfo.levels[chosenTower.level];
         if (money >= nextLevelInfo.price)
         {
             money -= nextLevelInfo.price;
@@ -178,7 +194,19 @@ public class TowerManager : MonoBehaviour
             nextRangeText.text = "";
             nextHiddensText.text = "";
             nextFlyingsText.text = "";
+            priceText.text = "MAXED";
         }
 
+    }
+    public void DeleteTower()
+    {
+        Destroy(chosenTower.gameObject);
+        chosenTower = null;
+        UIFunctions.instance.ToggleTowerInfo(false);
+    }
+    public void ChangeTargetMode()
+    {
+        chosenTower.mode = chosenTower.mode == "First" ? "Strongest" : "First";
+        targetText.text = chosenTower.mode;
     }
 }

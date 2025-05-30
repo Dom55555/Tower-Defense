@@ -57,8 +57,13 @@ MonoBehaviour:
   wayPointsObject: {fileID: 0}
   currentPoint: 0
   speed: 0
+  maxHp: 0
+  maxShield: 0
   hp: 0
   shieldHp: 0
+  enemyName: 
+  status: 
+  distanceWalked: 0
 --- !u!1 &72427029166932328
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +78,7 @@ GameObject:
   - component: {fileID: 2887155975744846990}
   m_Layer: 8
   m_Name: Sphere (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,7 +183,7 @@ GameObject:
   - component: {fileID: 6025914930094679776}
   m_Layer: 8
   m_Name: Capsule
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -285,7 +290,7 @@ GameObject:
   - component: {fileID: 5532538427847746396}
   m_Layer: 8
   m_Name: Sphere (3)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -390,7 +395,7 @@ GameObject:
   - component: {fileID: 5364409937867129576}
   m_Layer: 8
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -495,7 +500,7 @@ GameObject:
   - component: {fileID: 1037998648437274428}
   m_Layer: 8
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -602,7 +607,7 @@ GameObject:
   - component: {fileID: 4998692227620813380}
   m_Layer: 8
   m_Name: Cylinder (2)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -709,7 +714,7 @@ GameObject:
   - component: {fileID: 4323874980836133338}
   m_Layer: 8
   m_Name: Cylinder (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -816,7 +821,7 @@ GameObject:
   - component: {fileID: 5143045394341442421}
   m_Layer: 8
   m_Name: Sphere (2)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -921,7 +926,7 @@ GameObject:
   - component: {fileID: 1548955958911453178}
   m_Layer: 8
   m_Name: Capsule (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1028,7 +1033,7 @@ GameObject:
   - component: {fileID: 4147555915204141110}
   m_Layer: 8
   m_Name: Sphere (4)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -8,12 +8,12 @@ public class Enemy : MonoBehaviour
 {
     public Transform wayPointsObject;
     public int currentPoint = 0;
+    public string enemyName;
     public float speed;
     public int maxHp;
     public int maxShield;
     public int hp;
     public int shieldHp;
-    public string enemyName;
     public string status;
     public float distanceWalked = 0f;
 
