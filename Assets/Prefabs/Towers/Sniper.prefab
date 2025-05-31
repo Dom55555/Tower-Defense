@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 4244721674353585852}
   m_Layer: 10
   m_Name: Sphere (2)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 680758408962299801}
   m_Layer: 10
   m_Name: LeftArm
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -838,7 +838,7 @@ GameObject:
   - component: {fileID: 8740351066785998806}
   m_Layer: 10
   m_Name: CapPart
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 5737259384653115808}
   m_Layer: 10
   m_Name: CapPart
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1084,7 +1084,7 @@ GameObject:
   - component: {fileID: 6457614003302721295}
   m_Layer: 10
   m_Name: Torso
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1294,7 +1294,7 @@ GameObject:
   - component: {fileID: 7640547002148583554}
   m_Layer: 10
   m_Name: RightLeg
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1399,7 +1399,7 @@ GameObject:
   - component: {fileID: 4862589547594635286}
   m_Layer: 10
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1611,7 +1611,7 @@ GameObject:
   - component: {fileID: 7270319122851893234}
   m_Layer: 10
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1779,7 +1779,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3988985387299265389}
   enemiesInRange: []
-  towerInfo: {fileID: 11400000, guid: 3562cf9300528974889c7df9b4e6a49e, type: 2}
   mode: First
   towerName: Sniper
   level: 1
@@ -1805,7 +1804,7 @@ GameObject:
   - component: {fileID: 5297871362633099518}
   m_Layer: 10
   m_Name: Sphere (1)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1993,7 +1992,7 @@ GameObject:
   - component: {fileID: 1388405505637263500}
   m_Layer: 10
   m_Name: LeftLeg
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

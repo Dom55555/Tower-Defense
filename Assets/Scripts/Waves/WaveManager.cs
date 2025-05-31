@@ -39,8 +39,12 @@ public class WaveManager : MonoBehaviour
         if (gameTimer <= 0 && intermission)
         {
             intermission = false;
-            gameTimer = 60; 
-
+            gameTimer = 60;
+            if(TowerManager.instance.moneyPerWave>0)
+            {
+                TowerManager.instance.WaveMoney();
+                StartCoroutine(UIFunctions.instance.WaveMoney());
+            }
             if (wave < waves.Length)
             {
                 StartCoroutine(SpawnWave(waves[wave]));

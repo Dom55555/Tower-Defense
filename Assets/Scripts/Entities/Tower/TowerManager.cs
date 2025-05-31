@@ -5,11 +5,11 @@ using System.Linq;
 
 public class TowerManager : MonoBehaviour
 {
-    [Header("To Set:")]
     public static TowerManager instance;
+    [Header("To Set:")]
     public int money = 1000;
-    public TMP_Text moneyText;
     public LayerMask placementLayers;
+    public TMP_Text moneyText;
     public TowerData[] towers = new TowerData[5];
     [Header("Tower Info Variables(UI):")]
     public TMP_Text towerName;
@@ -28,13 +28,17 @@ public class TowerManager : MonoBehaviour
     public TMP_Text nextRangeText;
     public TMP_Text nextHiddensText;
     public TMP_Text nextFlyingsText;
+    [Header("Extra Info Panel Variables")]
+    public TMP_Text moneyPerWaveText;
     [Header("Other Variables:")]
-    public bool placingTower = false;
     public Tower chosenTower;
+    public bool placingTower = false;
+    public int moneyPerWave = 0;
 
 
     private GameObject previewTower;
     private Camera mainCam;
+    private int[] farmIncomeByLevel = { 50, 50, 100, 300, 1000 };
     private int selectedIndex = -1;
 
     void Start()
@@ -133,12 +137,14 @@ public class TowerManager : MonoBehaviour
             if (check != null && check.IsValidPlacement)
             {
                 GameObject realTower = Instantiate(towers[selectedIndex].towerPrefab, hit.point, Quaternion.identity);
-                realTower.GetComponent<Tower>().justPlaced = true;
-                realTower.GetComponent<Tower>().damage = towers[selectedIndex].levels[0].damage;
-                realTower.GetComponent<Tower>().firerate = towers[selectedIndex].levels[0].firerate;
-                realTower.GetComponent<Tower>().canSeeHiddens = towers[selectedIndex].levels[0].seeHidden;
-                realTower.GetComponent<Tower>().canSeeFlyings = towers[selectedIndex].levels[0].seeFlying;
+                Tower towerComponent = realTower.GetComponent<Tower>();
+                towerComponent.justPlaced = true;
+                towerComponent.damage = towers[selectedIndex].levels[0].damage;
+                towerComponent.firerate = towers[selectedIndex].levels[0].firerate;
+                towerComponent.canSeeHiddens = towers[selectedIndex].levels[0].seeHidden;
+                towerComponent.canSeeFlyings = towers[selectedIndex].levels[0].seeFlying;
                 money -= towers[selectedIndex].placePrice;
+                if (towerComponent.towerName == "Farm") moneyPerWave += 50;
                 CancelPlacement();
             }
         }
@@ -173,6 +179,7 @@ public class TowerManager : MonoBehaviour
             chosenTower.canSeeFlyings = nextLevelInfo.seeFlying;
             chosenTower.level++;
             SetInfoVariables();
+            SetExtraVariables(true);
         }
     }
     public void TowerSelected(Tower selectedTower)
@@ -184,6 +191,7 @@ public class TowerManager : MonoBehaviour
         chosenTower = selectedTower;
         chosenTower.transform.Find("Range").gameObject.SetActive(true);
         SetInfoVariables();
+        SetExtraVariables(false);
     }
     public void TowerDeselected()
     {
@@ -225,10 +233,31 @@ public class TowerManager : MonoBehaviour
             nextFlyingsText.text = "";
             priceText.text = "MAXED";
         }
-
+    }
+    public void SetExtraVariables(bool changeValues)
+    {
+        if (chosenTower.towerName == "Farm")
+        {
+            int money = 0;
+            for (int i = 0; i < chosenTower.level; i++)
+            {
+                money += farmIncomeByLevel[i];
+            }
+            moneyPerWaveText.text = "+" + money + "$";
+            if(changeValues) moneyPerWave += farmIncomeByLevel[chosenTower.level - 1];
+        }
     }
     public void DeleteTower()
     {
+        if (chosenTower.towerName == "Farm")
+        {
+            int totalIncome = 0;
+            for (int i = 0; i < chosenTower.level; i++)
+            {
+                totalIncome += farmIncomeByLevel[i];
+            }
+            moneyPerWave -= totalIncome;
+        }
         Destroy(chosenTower.gameObject);
         chosenTower = null;
         UIFunctions.instance.ToggleTowerInfo(false);
@@ -237,5 +266,9 @@ public class TowerManager : MonoBehaviour
     {
         chosenTower.mode = chosenTower.mode == "First" ? "Strongest" : "First";
         targetText.text = chosenTower.mode;
+    }
+    public void WaveMoney()
+    {
+        money += moneyPerWave;
     }
 }

@@ -26,7 +26,7 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
-        if(justPlaced)
+        if(justPlaced && towerName != "Farm")
         {
             StartCoroutine(Targeting());
             StartCoroutine(Shooting());
@@ -149,9 +149,6 @@ public class Tower : MonoBehaviour
 
         lr.startColor = new Color(1f, 1f, 1f, 1f);
         lr.endColor = new Color(1f, 1f, 1f, 1f);
-
-        //lr.receiveShadows = false;
-        //lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         lr.alignment = LineAlignment.View;
 
         StartCoroutine(FadeLineRenderer(lr, 0.5f));

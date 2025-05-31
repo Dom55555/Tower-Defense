@@ -28,15 +28,14 @@ public class PlayerCamera : MonoBehaviour
 
     void Update()
     {
-        if (!UIFunctions.instance.freezeCameraRotation)
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        bool allowRotation = !UIFunctions.instance.freezeCameraRotation || Input.GetMouseButton(1);
+        if (allowRotation)
         {
-            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
-
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
             yRotation += mouseX;
-
             transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
         }
 
@@ -61,8 +60,12 @@ public class PlayerCamera : MonoBehaviour
         {
             UIFunctions.instance.ToggleTowerInfo(true);
             TowerManager.instance.TowerSelected(chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>());
+            if(chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>().towerName=="Farm")
+            {
+                UIFunctions.instance.ShowExtraTowerInfo("Farm");
+            }
         }
-        
+
     }
 
     IEnumerator CheckEntityInfo()
@@ -83,22 +86,19 @@ public class PlayerCamera : MonoBehaviour
                 }
                 else if (hit.collider.CompareTag("Tower"))
                 {
-                    if (chosenEntityInfo == null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.parent)
+                    if (chosenEntityInfo == null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.root)
                     {
                         if (chosenEntityInfo != null)
                         {
                             var placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
-                            if (placement != null)
-                                placement.GetComponent<MeshRenderer>().enabled = false;
-
+                            if (placement != null) placement.GetComponent<MeshRenderer>().enabled = false;
                             Destroy(chosenEntityInfo);
                         }
-                        chosenEntityInfo = Instantiate(towerInfoPrefab, hit.collider.transform.position, Quaternion.identity);
-                        chosenEntityInfo.GetComponent<EntityUI>().entityTransform = hit.collider.transform.parent;
+                        chosenEntityInfo = Instantiate(towerInfoPrefab, hit.collider.transform.root.Find("Placement").position, Quaternion.identity);
+                        chosenEntityInfo.GetComponent<EntityUI>().entityTransform = hit.collider.transform.root;
 
                         var newPlacement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
-                        if (newPlacement != null)
-                            newPlacement.GetComponent<MeshRenderer>().enabled = true;
+                        if (newPlacement != null) newPlacement.GetComponent<MeshRenderer>().enabled = true;
                     }
                 }
             }
@@ -116,7 +116,6 @@ public class PlayerCamera : MonoBehaviour
                     chosenEntityInfo = null;
                 }
             }
-
             yield return new WaitForSeconds(0.2f);
         }
     }

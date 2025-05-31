@@ -10,41 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d25e5f3194389e14ca238cda68f444b4, type: 3}
-  m_Name: Ranger
+  m_Name: Farm
   m_EditorClassIdentifier: 
-  towerName: Ranger
-  placePrice: 3250
-  towerPrefab: {fileID: 1265545434913123181, guid: 570c3c2a1476c9741b1570adb6fed5cd,
+  towerName: Farm
+  placePrice: 250
+  towerPrefab: {fileID: 3591488482256811167, guid: e767dc12f26fce3429dd04144946390c,
     type: 3}
   extraPrefab: {fileID: 0}
   levels:
   - price: 0
-    range: 22
-    damage: 40
-    firerate: 3.5
+    range: 2.5
+    damage: 0
+    firerate: 0
     seeHidden: 0
-    seeFlying: 1
+    seeFlying: 0
+  - price: 200
+    range: 2.5
+    damage: 0
+    firerate: 0
+    seeHidden: 0
+    seeFlying: 0
+  - price: 550
+    range: 2.5
+    damage: 0
+    firerate: 0
+    seeHidden: 0
+    seeFlying: 0
   - price: 1200
-    range: 24
-    damage: 60
-    firerate: 3
+    range: 2.5
+    damage: 0
+    firerate: 0
     seeHidden: 0
-    seeFlying: 1
-  - price: 2550
-    range: 24
-    damage: 80
-    firerate: 2.5
+    seeFlying: 0
+  - price: 4000
+    range: 2.5
+    damage: 0
+    firerate: 0
     seeHidden: 0
-    seeFlying: 1
-  - price: 4800
-    range: 28
-    damage: 140
-    firerate: 2.2
-    seeHidden: 0
-    seeFlying: 1
-  - price: 12000
-    range: 34
-    damage: 300
-    firerate: 2.5
-    seeHidden: 0
-    seeFlying: 1
+    seeFlying: 0

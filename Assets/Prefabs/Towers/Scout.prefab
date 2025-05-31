@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 971702146160262880}
   m_Layer: 10
   m_Name: Sphere
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -178,7 +178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4154856874107714685}
   enemiesInRange: []
-  towerInfo: {fileID: 11400000, guid: a401767fcf2a6bb4fa8b59399a93593a, type: 2}
   mode: First
   towerName: Scout
   level: 1
@@ -204,7 +203,7 @@ GameObject:
   - component: {fileID: 7537946253314661359}
   m_Layer: 10
   m_Name: LeftArm
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -463,7 +462,7 @@ GameObject:
   - component: {fileID: 7845998541335600055}
   m_Layer: 10
   m_Name: Sphere (2)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -707,7 +706,7 @@ GameObject:
   - component: {fileID: 3244698422865768600}
   m_Layer: 10
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -814,7 +813,7 @@ GameObject:
   - component: {fileID: 4240075434887224442}
   m_Layer: 10
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -919,7 +918,7 @@ GameObject:
   - component: {fileID: 5893098155070697491}
   m_Layer: 10
   m_Name: LeftLeg
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1228,7 +1227,7 @@ GameObject:
   - component: {fileID: 8982092821022631791}
   m_Layer: 10
   m_Name: RightLeg
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1333,7 +1332,7 @@ GameObject:
   - component: {fileID: 2390916886157874567}
   m_Layer: 10
   m_Name: Torso
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1438,7 +1437,7 @@ GameObject:
   - component: {fileID: 551974216541931911}
   m_Layer: 10
   m_Name: Sphere (1)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1648,7 +1647,7 @@ GameObject:
   - component: {fileID: 7099228680759527924}
   m_Layer: 10
   m_Name: Cylinder
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
