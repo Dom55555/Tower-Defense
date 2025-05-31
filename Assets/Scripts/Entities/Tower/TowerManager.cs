@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 public class TowerManager : MonoBehaviour
 {
@@ -49,6 +50,8 @@ public class TowerManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1)) selectedIndex = 0;
             else if (Input.GetKeyDown(KeyCode.Alpha2)) selectedIndex = 1;
             else if (Input.GetKeyDown(KeyCode.Alpha3)) selectedIndex = 2;
+            else if(Input.GetKeyDown(KeyCode.Alpha4)) selectedIndex = 3;
+            else if (Input.GetKeyDown(KeyCode.Alpha5)) selectedIndex = 4;
 
             if (selectedIndex != -1 && money >= towers[selectedIndex].placePrice)
             {
@@ -76,6 +79,19 @@ public class TowerManager : MonoBehaviour
                 selectedIndex = 2;
                 SetPreviewTower();
             }
+            else if (Input.GetKeyDown(KeyCode.Alpha4) && selectedIndex != 3)
+            {
+                CancelPlacement();
+                selectedIndex = 3;
+                SetPreviewTower();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5) && selectedIndex != 4)
+            {
+                CancelPlacement();
+                selectedIndex = 4;
+                SetPreviewTower();
+            }
+
             PreviewPlacement();
 
             if (Input.GetMouseButtonDown(0))
@@ -95,6 +111,7 @@ public class TowerManager : MonoBehaviour
         previewTower = Instantiate(towers[selectedIndex].towerPrefab);
         previewTower.GetComponent<Tower>().justPlaced = false;
         UIFunctions.instance.ToggleTowerInfo(false);
+        UIFunctions.instance.TogglePlacingMode(true);
         TowerDeselected();
         SetLayerRecursive(previewTower.transform, LayerMask.NameToLayer("Ignore Raycast"));
     }
@@ -117,6 +134,10 @@ public class TowerManager : MonoBehaviour
             {
                 GameObject realTower = Instantiate(towers[selectedIndex].towerPrefab, hit.point, Quaternion.identity);
                 realTower.GetComponent<Tower>().justPlaced = true;
+                realTower.GetComponent<Tower>().damage = towers[selectedIndex].levels[0].damage;
+                realTower.GetComponent<Tower>().firerate = towers[selectedIndex].levels[0].firerate;
+                realTower.GetComponent<Tower>().canSeeHiddens = towers[selectedIndex].levels[0].seeHidden;
+                realTower.GetComponent<Tower>().canSeeFlyings = towers[selectedIndex].levels[0].seeFlying;
                 money -= towers[selectedIndex].placePrice;
                 CancelPlacement();
             }
@@ -127,6 +148,7 @@ public class TowerManager : MonoBehaviour
         if (previewTower != null) Destroy(previewTower);
         placingTower = false;
         selectedIndex = -1;
+        UIFunctions.instance.TogglePlacingMode(false);
     }
     private void SetLayerRecursive(Transform obj, int layer)
     {
@@ -139,7 +161,7 @@ public class TowerManager : MonoBehaviour
     public void UpgradeTower()
     {
         if (chosenTower.level == 5) return;
-        TowerData.TowerLevel nextLevelInfo = chosenTower.towerInfo.levels[chosenTower.level];
+        TowerData.TowerLevel nextLevelInfo = towers.FirstOrDefault(x => x.towerName == chosenTower.towerName).levels[chosenTower.level];
         if (money >= nextLevelInfo.price)
         {
             money -= nextLevelInfo.price;
@@ -173,7 +195,7 @@ public class TowerManager : MonoBehaviour
     {
         towerName.text = chosenTower.towerName;
         levelText.text = chosenTower.level + " Level";
-        TowerData.TowerLevel levelInfo = chosenTower.towerInfo.levels[chosenTower.level - 1];
+        TowerData.TowerLevel levelInfo = towers.FirstOrDefault(x => x.towerName == chosenTower.towerName).levels[chosenTower.level-1];
         dmgText.text = levelInfo.damage+"DMG";
         firerateText.text = levelInfo.firerate + " S";
         rangeText.text = levelInfo.range.ToString();
@@ -184,7 +206,7 @@ public class TowerManager : MonoBehaviour
 
         if (chosenTower.level<5)
         {
-            levelInfo = chosenTower.towerInfo.levels[chosenTower.level];
+            levelInfo = towers.FirstOrDefault(x => x.towerName == chosenTower.towerName).levels[chosenTower.level];
             nextDmgText.text = levelInfo.damage + " DMG";
             nextFirerateText.text = levelInfo.firerate + " S";
             nextRangeText.text = levelInfo.range.ToString();

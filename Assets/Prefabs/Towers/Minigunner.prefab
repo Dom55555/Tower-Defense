@@ -854,7 +854,7 @@ GameObject:
   - component: {fileID: 994827323580550327}
   m_Layer: 10
   m_Name: LeftLeg
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1064,7 +1064,7 @@ GameObject:
   - component: {fileID: 4218374102569735844}
   m_Layer: 10
   m_Name: RightLeg
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1692,7 +1692,7 @@ GameObject:
   - component: {fileID: 2261608560974642625}
   - component: {fileID: 122992345312503488}
   - component: {fileID: 7301118499297755081}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1799,7 +1799,7 @@ GameObject:
   - component: {fileID: 5064871388824088795}
   - component: {fileID: 1054877926664484369}
   - component: {fileID: 3615586375392803536}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1906,7 +1906,7 @@ GameObject:
   - component: {fileID: 7834099725182626457}
   m_Layer: 10
   m_Name: Eye
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2011,7 +2011,7 @@ GameObject:
   - component: {fileID: 1609226450378513455}
   m_Layer: 10
   m_Name: Torso
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3269,7 +3269,7 @@ GameObject:
   - component: {fileID: 2939700766097718950}
   - component: {fileID: 8075820231096615710}
   - component: {fileID: 505272410653871964}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3796,7 +3796,7 @@ GameObject:
   - component: {fileID: 2002042906482392261}
   m_Layer: 10
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3901,7 +3901,7 @@ GameObject:
   - component: {fileID: 3203814101109142222}
   - component: {fileID: 407542282772423630}
   - component: {fileID: 2174721770835296740}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4005,9 +4005,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6904070497372946060}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Gun
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4051,7 +4051,7 @@ GameObject:
   - component: {fileID: 5944540357747701735}
   - component: {fileID: 984420083177091979}
   - component: {fileID: 4372139928576755492}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4419,7 +4419,7 @@ GameObject:
   - component: {fileID: 3877171941458583401}
   m_Layer: 10
   m_Name: LeftArm
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4838,7 +4838,7 @@ GameObject:
   - component: {fileID: 5166719416375363721}
   - component: {fileID: 7453080661998944956}
   - component: {fileID: 7336995380688702687}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5133,7 +5133,7 @@ GameObject:
   - component: {fileID: 2845238609001477781}
   - component: {fileID: 8011752857570107034}
   - component: {fileID: 6529634308634069206}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5465,7 +5465,7 @@ GameObject:
   - component: {fileID: 8194526690147862381}
   m_Layer: 10
   m_Name: Glasses
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5506,7 +5506,7 @@ GameObject:
   - component: {fileID: 5202537684732046372}
   m_Layer: 10
   m_Name: Eye
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5821,7 +5821,7 @@ GameObject:
   - component: {fileID: 7062637948974795297}
   m_Layer: 10
   m_Name: Mouth
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6368,7 +6368,7 @@ GameObject:
   - component: {fileID: 5424771370568175242}
   - component: {fileID: 8488315019965510463}
   - component: {fileID: 3181803700892240394}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6475,7 +6475,7 @@ GameObject:
   - component: {fileID: 4455602944508190837}
   - component: {fileID: 7083765857474837262}
   - component: {fileID: 57040200840115814}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6897,7 +6897,7 @@ GameObject:
   - component: {fileID: 1462705743193310389}
   m_Layer: 10
   m_Name: Hair
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7074,7 +7074,7 @@ GameObject:
   - component: {fileID: 145977644632058152}
   - component: {fileID: 6983442587528278172}
   - component: {fileID: 2606025746110362463}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7181,7 +7181,7 @@ GameObject:
   - component: {fileID: 6736000874470221119}
   - component: {fileID: 6510554209897519508}
   - component: {fileID: 4470808038919534490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7813,7 +7813,7 @@ GameObject:
   - component: {fileID: 2573081967506457357}
   - component: {fileID: 8948366746661458230}
   - component: {fileID: 5688736500969289357}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

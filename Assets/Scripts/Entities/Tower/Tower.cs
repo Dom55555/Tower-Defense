@@ -8,7 +8,6 @@ public class Tower : MonoBehaviour
 {
     public Animator animator;
     public List<Enemy> enemiesInRange = new List<Enemy>();
-    public TowerData towerInfo;
 
     public string mode = "First";
     public string towerName;
@@ -24,15 +23,6 @@ public class Tower : MonoBehaviour
     public bool justPlaced;
 
     private Enemy targetEnemy = null;
-
-    void Start()
-    {
-        damage = towerInfo.levels[level - 1].damage;
-        firerate = towerInfo.levels[level - 1].firerate;
-        canSeeHiddens = towerInfo.levels[level - 1].seeHidden;
-        canSeeFlyings = towerInfo.levels[level - 1].seeFlying;
-    }
-
 
     void Update()
     {
@@ -131,6 +121,10 @@ public class Tower : MonoBehaviour
                     enemiesInRange.Remove(targetEnemy);
                     Destroy(targetEnemy.gameObject);
                 }
+                if(towerName=="Ranger")
+                {
+                    RangerTrail();
+                }
                 yield return new WaitForSeconds(firerate*firerateMult);
                 targetEnemy = null;
             }
@@ -139,5 +133,41 @@ public class Tower : MonoBehaviour
                 yield return new WaitForSeconds(0.05f);
             }
         }
+    }
+    private void RangerTrail()
+    {
+        GameObject lineObj = new GameObject("BulletTrail");
+        LineRenderer lr = lineObj.AddComponent<LineRenderer>();
+
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+
+        lr.startWidth = 0.05f;
+        lr.endWidth = 0.05f;
+
+        lr.SetPosition(0, transform.Find("Muzzle").position);
+        lr.SetPosition(1, targetEnemy.transform.Find("Target").position);
+
+        lr.startColor = new Color(1f, 1f, 1f, 1f);
+        lr.endColor = new Color(1f, 1f, 1f, 1f);
+
+        //lr.receiveShadows = false;
+        //lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        lr.alignment = LineAlignment.View;
+
+        StartCoroutine(FadeLineRenderer(lr, 0.5f));
+    }
+    private IEnumerator FadeLineRenderer(LineRenderer lr, float duration)
+    {
+        float time = 0f;
+        Color startColor = lr.startColor;
+        while (time < duration)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, time / duration);
+            lr.startColor = new Color(startColor.r, startColor.g, startColor.b, alpha);
+            lr.endColor = new Color(startColor.r, startColor.g, startColor.b, alpha);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(lr.gameObject);
     }
 }

@@ -6,6 +6,7 @@ public class UIFunctions : MonoBehaviour
 {
     public static UIFunctions instance;
     public GameObject towerInfoPanel;
+    public GameObject placingModePanel;
     public bool freezeCameraPosition = false;
     public bool freezeCameraRotation = false;
 
@@ -46,5 +47,9 @@ public class UIFunctions : MonoBehaviour
         towerInfoPanel.SetActive(state);
         freezeCameraRotation = state;
         Cursor.lockState = state?CursorLockMode.None:CursorLockMode.Locked;
+    }
+    public void TogglePlacingMode(bool state)
+    {
+        placingModePanel.SetActive(state);
     }
 }
