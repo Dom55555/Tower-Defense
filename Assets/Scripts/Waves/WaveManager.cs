@@ -6,7 +6,6 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     [Header("To Set:")]
-    public Transform spawnPoint;
     public Transform wayPointsObject;
     public WaveData[] waves;
     public TMP_Text timerText;
@@ -15,14 +14,14 @@ public class WaveManager : MonoBehaviour
     public int wave = 0;
     public float gameTimer = 5;
     public bool intermission = true;
-
-
     public List<Enemy> enemiesOnMap = new List<Enemy>();
 
+    private Transform spawnPoint;
     private bool allSpawned = false;
 
     void Start()
     {
+        spawnPoint =wayPointsObject.GetChild(0);
         StartCoroutine(CheckEnemies());
     }
     void Update()

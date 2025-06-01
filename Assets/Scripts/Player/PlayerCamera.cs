@@ -12,7 +12,7 @@ public class PlayerCamera : MonoBehaviour
     public LayerMask EntityLayer;
     public GameObject enemyInfoPrefab;
     public GameObject towerInfoPrefab;
-
+    public GameObject patrolCarInfoPrefab;
 
     private float xRotation = 0f;
     private float yRotation = 0f;
@@ -56,16 +56,20 @@ public class PlayerCamera : MonoBehaviour
             pos.z = Mathf.Clamp(pos.z, -20f, 32f);
             transform.position = pos;
         }
-        if(Input.GetMouseButtonDown(0)&&chosenEntityInfo!=null && chosenEntityInfo.GetComponent<EntityUI>().entityTransform.CompareTag("Tower"))
+        if(chosenEntityInfo!=null)
         {
-            UIFunctions.instance.ToggleTowerInfo(true);
-            TowerManager.instance.TowerSelected(chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>());
-            if(chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>().towerName=="Farm")
+            Transform entityTransform = chosenEntityInfo.GetComponent<EntityUI>().entityTransform;
+            if(Input.GetMouseButtonDown(0) && entityTransform.CompareTag("Tower"))
             {
-                UIFunctions.instance.ShowExtraTowerInfo("Farm");
+                if (entityTransform.GetComponent<Tower>().towerName == "PatrolCar") return;
+                UIFunctions.instance.ToggleTowerInfo(true);
+                TowerManager.instance.TowerSelected(chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>());
+                if (chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>().towerName == "Farm")
+                {
+                    UIFunctions.instance.ShowExtraTowerInfo("Farm");
+                }
             }
         }
-
     }
 
     IEnumerator CheckEntityInfo()
@@ -75,45 +79,43 @@ public class PlayerCamera : MonoBehaviour
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hit, 100f, EntityLayer))
             {
-                if (hit.collider.CompareTag("Enemy"))
+                if((hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Tower"))&&(chosenEntityInfo == null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.root))
                 {
-                    if (chosenEntityInfo == null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.parent)
+                    if (chosenEntityInfo != null)
                     {
-                        if (chosenEntityInfo != null) Destroy(chosenEntityInfo);
-                        chosenEntityInfo = Instantiate(enemyInfoPrefab, hit.collider.transform.position, Quaternion.identity);
-                        chosenEntityInfo.GetComponent<EntityUI>().entityTransform = hit.collider.transform.parent;
-                    }
-                }
-                else if (hit.collider.CompareTag("Tower"))
-                {
-                    if (chosenEntityInfo == null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.root)
-                    {
-                        if (chosenEntityInfo != null)
+                        if(chosenEntityInfo.GetComponent<EntityUI>().entityTransform!=null)
                         {
                             var placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
                             if (placement != null) placement.GetComponent<MeshRenderer>().enabled = false;
-                            Destroy(chosenEntityInfo);
                         }
-                        chosenEntityInfo = Instantiate(towerInfoPrefab, hit.collider.transform.root.Find("Placement").position, Quaternion.identity);
-                        chosenEntityInfo.GetComponent<EntityUI>().entityTransform = hit.collider.transform.root;
-
-                        var newPlacement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
-                        if (newPlacement != null) newPlacement.GetComponent<MeshRenderer>().enabled = true;
+                        Destroy(chosenEntityInfo);
                     }
-                }
-            }
-            else
-            {
-                if (chosenEntityInfo != null)
-                {
-                    if (chosenEntityInfo.GetComponent<EntityUI>().entityTransform != null)
+                    if (hit.collider.CompareTag("Enemy"))
                     {
-                        Transform placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
-                        if (placement != null)
-                            placement.GetComponent<MeshRenderer>().enabled = false;
+                        chosenEntityInfo = Instantiate(enemyInfoPrefab, hit.collider.transform.position, Quaternion.identity);
                     }
-                    Destroy(chosenEntityInfo);
-                    chosenEntityInfo = null;
+                    else if (hit.collider.CompareTag("Tower"))
+                    {
+                        if(hit.collider.transform.root.GetComponent<Tower>().towerName=="PatrolCar") chosenEntityInfo = Instantiate(patrolCarInfoPrefab, hit.collider.transform.root.Find("Placement").position, Quaternion.identity);
+                        else chosenEntityInfo = Instantiate(towerInfoPrefab, hit.collider.transform.root.Find("Placement").position, Quaternion.identity);
+                    }
+                    chosenEntityInfo.GetComponent<EntityUI>().entityTransform = hit.collider.transform.root;
+                    var newPlacement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
+                    if (newPlacement != null) newPlacement.GetComponent<MeshRenderer>().enabled = true;
+                }
+                else if (!hit.collider.CompareTag("Enemy") && !hit.collider.CompareTag("Tower"))
+                {
+                    if (chosenEntityInfo != null)
+                    {
+                        if (chosenEntityInfo.GetComponent<EntityUI>().entityTransform != null)
+                        {
+                            Transform placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
+                            if (placement != null)
+                                placement.GetComponent<MeshRenderer>().enabled = false;
+                        }
+                        Destroy(chosenEntityInfo);
+                        chosenEntityInfo = null;
+                    }
                 }
             }
             yield return new WaitForSeconds(0.2f);

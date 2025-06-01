@@ -400,12 +400,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wayPointsObject: {fileID: 0}
   currentPoint: 0
+  enemyName: 
   speed: 0
   maxHp: 0
   maxShield: 0
   hp: 0
   shieldHp: 0
-  enemyName: 
   status: 
   distanceWalked: 0
 --- !u!1 &6835069611053748668

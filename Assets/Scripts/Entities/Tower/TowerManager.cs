@@ -10,6 +10,7 @@ public class TowerManager : MonoBehaviour
     public int money = 1000;
     public LayerMask placementLayers;
     public TMP_Text moneyText;
+    public Transform wayPointsObject;
     public TowerData[] towers = new TowerData[5];
     [Header("Tower Info Variables(UI):")]
     public TMP_Text towerName;
@@ -40,11 +41,17 @@ public class TowerManager : MonoBehaviour
     private Camera mainCam;
     private int[] farmIncomeByLevel = { 50, 50, 100, 300, 1000 };
     private int selectedIndex = -1;
+    private Transform[] wayPoints;
 
     void Start()
     {
         instance = this;
         mainCam = Camera.main;
+        wayPoints = new Transform[wayPointsObject.childCount];
+        for (int i = wayPointsObject.childCount-1; i >=0; i--)
+        {
+            wayPoints[wayPointsObject.childCount-i-1] = wayPointsObject.GetChild(i);
+        }
     }
 
     void Update()
@@ -270,5 +277,19 @@ public class TowerManager : MonoBehaviour
     public void WaveMoney()
     {
         money += moneyPerWave;
+    }
+    public void SpawnPatrol(int level)
+    {
+        var patrolInfo = towers.FirstOrDefault(x => x.towerName == "Patrol");
+        GameObject patrolPrefab = patrolInfo.extraPrefab;
+        GameObject patrolCar = Instantiate(patrolPrefab, wayPoints[0].position,Quaternion.identity);
+        patrolCar.GetComponent<Tower>().wayPoints = wayPoints;
+        Tower towerComponent = patrolCar.GetComponent<Tower>();
+        towerComponent.justPlaced = true;
+        towerComponent.level = level;
+        towerComponent.damage = patrolInfo.levels[level-1].damage;
+        towerComponent.firerate = level==4?0.18f:0.12f;
+        towerComponent.canSeeHiddens = level==4?false:true;
+        towerComponent.canSeeFlyings = true;
     }
 }

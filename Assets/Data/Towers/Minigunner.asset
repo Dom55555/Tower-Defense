@@ -21,30 +21,30 @@ MonoBehaviour:
   - price: 0
     range: 12
     damage: 1
-    firerate: 0.1
+    firerate: 0.15
     seeHidden: 0
     seeFlying: 0
   - price: 600
     range: 15
     damage: 1
-    firerate: 0.08
+    firerate: 0.12
     seeHidden: 0
     seeFlying: 0
-  - price: 1100
+  - price: 1300
     range: 16
     damage: 2
-    firerate: 0.08
+    firerate: 0.12
     seeHidden: 1
     seeFlying: 0
-  - price: 2400
+  - price: 2800
     range: 18
     damage: 3
-    firerate: 0.07
+    firerate: 0.1
     seeHidden: 1
     seeFlying: 0
-  - price: 5600
+  - price: 7150
     range: 18
     damage: 4
-    firerate: 0.06
+    firerate: 0.09
     seeHidden: 1
     seeFlying: 0

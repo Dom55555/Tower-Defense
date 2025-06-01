@@ -21,6 +21,11 @@ public class TowerUI : EntityUI
     }
     protected override void Update()
     {
+        if (entityTransform == null)
+        {
+            transform.gameObject.SetActive(false);
+            return;
+        }
         transform.LookAt(Camera.main.transform);
         transform.Rotate(0, 180f, 0);
         levelText.text = tower.level + " LVL";

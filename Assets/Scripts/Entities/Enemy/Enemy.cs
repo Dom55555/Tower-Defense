@@ -7,7 +7,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform wayPointsObject;
-    public int currentPoint = 0;
+    public int currentPoint = 1;
     public string enemyName;
     public float speed;
     public int maxHp;

@@ -6,31 +6,60 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [Header("To Set:")]
     public Animator animator;
-    public List<Enemy> enemiesInRange = new List<Enemy>();
-
     public string mode = "First";
     public string towerName;
-    public int level = 1;
     public float firerate;
     public int damage;
     public bool canSeeHiddens;
     public bool canSeeFlyings;
+    [Header("Other Variables:")]
+    public List<Enemy> enemiesInRange = new List<Enemy>();
+    public int level = 1;
     public float rangeMult = 1;
     public float firerateMult = 1;
     public float priceMult = 1;
-
     public bool justPlaced;
 
     private Enemy targetEnemy = null;
 
-    void Update()
+    //patrol
+    private float patrolTimer = 0;
+    private int currentPoint = 1;
+    private Transform soldier;
+    public Transform[] wayPoints;
+
+    private void Update()
     {
-        if(justPlaced && towerName != "Farm")
+        if(justPlaced && towerName != "Farm" && !towerName.Contains("Patrol"))
         {
             StartCoroutine(Targeting());
             StartCoroutine(Shooting());
             justPlaced = false;
+        }
+        if(justPlaced && towerName == "Patrol")
+        {
+            StartCoroutine(PatrolSpawning());
+            justPlaced = false;
+        }
+        if(towerName=="PatrolCar")
+        {
+            if(justPlaced && level>3)
+            {
+                soldier = transform.Find("Soldier");
+                soldier.gameObject.SetActive(true);
+                StartCoroutine(Targeting());
+                StartCoroutine(PatrolShooting());
+                justPlaced = false;
+            }
+            transform.position += transform.forward * 2 * Time.deltaTime;
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(wayPoints[currentPoint].position - transform.position), 4 * Time.deltaTime);
+            if (Vector3.Distance(transform.position, wayPoints[currentPoint].position) < 0.1f)
+            {
+                currentPoint++;
+                if (currentPoint >= wayPoints.Length) Destroy(gameObject);
+            }
         }
     }
     private IEnumerator Targeting()
@@ -49,10 +78,7 @@ public class Tower : MonoBehaviour
                 float mostWalked = -1;
                 foreach (var enemy in enemiesInRange)
                 {
-                    if(enemy==null)
-                    {
-                        enemiesToRemove.Add(enemy);
-                    }
+                    if(enemy==null) enemiesToRemove.Add(enemy);
                     if (enemy.distanceWalked > mostWalked && (
                         (canSeeHiddens&&enemy.status.Contains("Hidden"))||
                         (!enemy.status.Contains("Hidden")&&enemy.status!="Flying")||
@@ -69,10 +95,7 @@ public class Tower : MonoBehaviour
                 float mostHp = 0;
                 foreach (var enemy in enemiesInRange)
                 {
-                    if (enemy == null)
-                    {
-                        enemiesToRemove.Add(enemy);
-                    }
+                    if (enemy == null) enemiesToRemove.Add(enemy);
                     if (enemy.hp+enemy.shieldHp>mostHp)
                     {
                         mostHp = enemy.hp+enemy.shieldHp;
@@ -80,10 +103,7 @@ public class Tower : MonoBehaviour
                     }
                 }
             }
-            foreach (var enemy in enemiesToRemove)
-            {
-                enemiesInRange.Remove(enemy);
-            }
+            foreach (var enemy in enemiesToRemove) enemiesInRange.Remove(enemy);
             yield return new WaitForSeconds(0.1f); 
         }
     }
@@ -101,10 +121,7 @@ public class Tower : MonoBehaviour
                 animator.Play("Shoot", -1, 0f);
                 if (targetEnemy.shieldHp>0)
                 {
-                    if(targetEnemy.shieldHp>=damage)
-                    {
-                        targetEnemy.shieldHp -= damage;
-                    }
+                    if(targetEnemy.shieldHp>=damage) targetEnemy.shieldHp -= damage;
                     else
                     {
                         int shieldDamageMade = targetEnemy.shieldHp;
@@ -112,26 +129,17 @@ public class Tower : MonoBehaviour
                         targetEnemy.hp -= damage - shieldDamageMade;
                     }
                 }
-                else
-                {
-                    targetEnemy.hp -= damage;
-                }
+                else targetEnemy.hp -= damage;
                 if(targetEnemy.hp<=0)
                 {
                     enemiesInRange.Remove(targetEnemy);
                     Destroy(targetEnemy.gameObject);
+                    targetEnemy = null;
                 }
-                if(towerName=="Ranger")
-                {
-                    RangerTrail();
-                }
+                if(towerName=="Ranger") RangerTrail();
                 yield return new WaitForSeconds(firerate*firerateMult);
-                targetEnemy = null;
             }
-            else
-            {
-                yield return new WaitForSeconds(0.05f);
-            }
+            else yield return new WaitForSeconds(0.05f);
         }
     }
     private void RangerTrail()
@@ -166,5 +174,53 @@ public class Tower : MonoBehaviour
             yield return null;
         }
         Destroy(lr.gameObject);
+    }
+    private IEnumerator PatrolSpawning()
+    {
+        patrolTimer = 2;
+        while(true)
+        {
+            patrolTimer -= 1;
+            if(patrolTimer<=0)
+            {
+                TowerManager.instance.SpawnPatrol(level);
+                patrolTimer = firerate;
+            }
+            yield return new WaitForSeconds(1);
+        }
+    }
+    private IEnumerator PatrolShooting()
+    {
+        while (true)
+        {
+            if (targetEnemy != null)
+            {
+                Vector3 direction = targetEnemy.transform.position - soldier.position;
+                direction.y = 0;
+                soldier.rotation = Quaternion.LookRotation(direction);
+                soldier.Rotate(0, 90, 0);
+
+                animator.Play("Shoot", -1, 0f);
+                if (targetEnemy.shieldHp > 0)
+                {
+                    if (targetEnemy.shieldHp >= 2) targetEnemy.shieldHp -= 2;
+                    else
+                    {
+                        int shieldDamageMade = targetEnemy.shieldHp;
+                        targetEnemy.shieldHp = 0;
+                        targetEnemy.hp -= 2 - shieldDamageMade;
+                    }
+                }
+                else targetEnemy.hp -= 2;
+                if (targetEnemy.hp <= 0)
+                {
+                    enemiesInRange.Remove(targetEnemy);
+                    Destroy(targetEnemy.gameObject);
+                    targetEnemy = null;
+                }
+                yield return new WaitForSeconds(firerate);
+            }
+            else yield return new WaitForSeconds(0.05f);
+        }
     }
 }

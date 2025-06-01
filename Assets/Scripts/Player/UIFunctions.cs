@@ -9,6 +9,7 @@ public class UIFunctions : MonoBehaviour
     public GameObject placingModePanel;
     public GameObject towerInfoPanel;
     public GameObject farmInfoPanel;
+    public GameObject patrolInfoPanel;
     public TMP_Text waveMoneyText;
     public bool freezeCameraPosition = false;
     public bool freezeCameraRotation = false;

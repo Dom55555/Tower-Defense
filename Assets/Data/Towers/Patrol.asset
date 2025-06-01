@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25e5f3194389e14ca238cda68f444b4, type: 3}
+  m_Name: Patrol
+  m_EditorClassIdentifier: 
+  towerName: Patrol
+  placePrice: 400
+  towerPrefab: {fileID: 4425055057587326596, guid: e8a4a06b5f00cbc438788b8dfa1692e3,
+    type: 3}
+  extraPrefab: {fileID: 1895565303775338312, guid: 618717eaa1fff3c43a090ae0f37d82b9,
+    type: 3}
+  levels:
+  - price: 0
+    range: 3.65
+    damage: 30
+    firerate: 45
+    seeHidden: 0
+    seeFlying: 0
+  - price: 350
+    range: 3.65
+    damage: 60
+    firerate: 30
+    seeHidden: 0
+    seeFlying: 0
+  - price: 750
+    range: 3.65
+    damage: 60
+    firerate: 30
+    seeHidden: 0
+    seeFlying: 0
+  - price: 2450
+    range: 3.65
+    damage: 120
+    firerate: 30
+    seeHidden: 0
+    seeFlying: 1
+  - price: 6000
+    range: 3.65
+    damage: 450
+    firerate: 40
+    seeHidden: 1
+    seeFlying: 1
