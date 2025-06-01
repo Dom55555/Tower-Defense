@@ -56,55 +56,28 @@ public class TowerManager : MonoBehaviour
 
     void Update()
     {
-        if (!placingTower)
+        moneyText.text = money + "$";
+        for (int i = 0; i < 5; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) selectedIndex = 0;
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) selectedIndex = 1;
-            else if (Input.GetKeyDown(KeyCode.Alpha3)) selectedIndex = 2;
-            else if(Input.GetKeyDown(KeyCode.Alpha4)) selectedIndex = 3;
-            else if (Input.GetKeyDown(KeyCode.Alpha5)) selectedIndex = 4;
-
-            if (selectedIndex != -1 && money >= towers[selectedIndex].placePrice)
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
-                SetPreviewTower();
+                if (!placingTower)
+                {
+                    selectedIndex = i;
+                    if (money >= towers[selectedIndex].placePrice) SetPreviewTower();
+                }
+                else if (selectedIndex != i)
+                {
+                    CancelPlacement();
+                    selectedIndex = i;
+                    SetPreviewTower();
+                }
+                break;
             }
         }
-
         if (placingTower)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1) && selectedIndex != 0)
-            {
-                CancelPlacement();
-                selectedIndex = 0;
-                SetPreviewTower();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2)&& selectedIndex!=1)
-            {
-                CancelPlacement();
-                selectedIndex = 1;
-                SetPreviewTower();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3) && selectedIndex != 2)
-            {
-                CancelPlacement();
-                selectedIndex = 2;
-                SetPreviewTower();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4) && selectedIndex != 3)
-            {
-                CancelPlacement();
-                selectedIndex = 3;
-                SetPreviewTower();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha5) && selectedIndex != 4)
-            {
-                CancelPlacement();
-                selectedIndex = 4;
-                SetPreviewTower();
-            }
-
             PreviewPlacement();
-
             if (Input.GetMouseButtonDown(0))
             {
                 TryPlaceTower();
@@ -114,7 +87,6 @@ public class TowerManager : MonoBehaviour
                 CancelPlacement();
             }
         }
-        moneyText.text = money+"$";
     }
     private void SetPreviewTower()
     {
@@ -186,7 +158,7 @@ public class TowerManager : MonoBehaviour
             chosenTower.canSeeFlyings = nextLevelInfo.seeFlying;
             chosenTower.level++;
             SetInfoVariables();
-            SetExtraVariables(true);
+            SetExtraInfoVariables(true);
         }
     }
     public void TowerSelected(Tower selectedTower)
@@ -198,7 +170,7 @@ public class TowerManager : MonoBehaviour
         chosenTower = selectedTower;
         chosenTower.transform.Find("Range").gameObject.SetActive(true);
         SetInfoVariables();
-        SetExtraVariables(false);
+        SetExtraInfoVariables(false);
     }
     public void TowerDeselected()
     {
@@ -241,7 +213,7 @@ public class TowerManager : MonoBehaviour
             priceText.text = "MAXED";
         }
     }
-    public void SetExtraVariables(bool changeValues)
+    public void SetExtraInfoVariables(bool changeValues)
     {
         if (chosenTower.towerName == "Farm")
         {
@@ -278,7 +250,7 @@ public class TowerManager : MonoBehaviour
     {
         money += moneyPerWave;
     }
-    public void SpawnPatrol(int level)
+    public void SpawnPatrolCar(int level)
     {
         var patrolInfo = towers.FirstOrDefault(x => x.towerName == "Patrol");
         GameObject patrolPrefab = patrolInfo.extraPrefab;

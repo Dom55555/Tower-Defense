@@ -5,7 +5,6 @@ using UnityEngine;
 public class PatrolTower : MonoBehaviour
 {
     private Tower parent;
-    // Start is called before the first frame update
     void Start()
     {
         parent = gameObject.transform.root.GetComponent<Tower>();
@@ -24,7 +23,6 @@ public class PatrolTower : MonoBehaviour
             if(parent.damage<=0)
             {
                 Destroy(parent.gameObject);
-                print("Destroyed");
             }
         }
     }

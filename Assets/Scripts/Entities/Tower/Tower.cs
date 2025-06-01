@@ -25,7 +25,7 @@ public class Tower : MonoBehaviour
     private Enemy targetEnemy = null;
 
     //patrol
-    private float patrolTimer = 0;
+    public float patrolTimer = 0;
     private int currentPoint = 1;
     private Transform soldier;
     public Transform[] wayPoints;
@@ -130,13 +130,13 @@ public class Tower : MonoBehaviour
                     }
                 }
                 else targetEnemy.hp -= damage;
+                if(towerName=="Ranger") RangerTrail();
                 if(targetEnemy.hp<=0)
                 {
                     enemiesInRange.Remove(targetEnemy);
                     Destroy(targetEnemy.gameObject);
                     targetEnemy = null;
                 }
-                if(towerName=="Ranger") RangerTrail();
                 yield return new WaitForSeconds(firerate*firerateMult);
             }
             else yield return new WaitForSeconds(0.05f);
@@ -183,7 +183,7 @@ public class Tower : MonoBehaviour
             patrolTimer -= 1;
             if(patrolTimer<=0)
             {
-                TowerManager.instance.SpawnPatrol(level);
+                TowerManager.instance.SpawnPatrolCar(level);
                 patrolTimer = firerate;
             }
             yield return new WaitForSeconds(1);

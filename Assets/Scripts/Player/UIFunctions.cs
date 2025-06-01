@@ -10,9 +10,12 @@ public class UIFunctions : MonoBehaviour
     public GameObject towerInfoPanel;
     public GameObject farmInfoPanel;
     public GameObject patrolInfoPanel;
+    public TMP_Text patrolTimerText;
     public TMP_Text waveMoneyText;
     public bool freezeCameraPosition = false;
     public bool freezeCameraRotation = false;
+
+    private Tower chosenTower;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +33,10 @@ public class UIFunctions : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.T) && !TowerManager.instance.placingTower && !TowerManager.instance.chosenTower)
         {
             ToggleCameraAbove();
+        }
+        if(chosenTower!=null)
+        {
+            patrolTimerText.text = chosenTower.patrolTimer + " S";
         }
     }
     public void ToggleCameraAbove()
@@ -50,14 +57,20 @@ public class UIFunctions : MonoBehaviour
     {
         towerInfoPanel.SetActive(state);
         farmInfoPanel.SetActive(false);
+        patrolInfoPanel.SetActive(false);
         freezeCameraRotation = state;
         Cursor.lockState = state?CursorLockMode.None:CursorLockMode.Locked;
     }
-    public void ShowExtraTowerInfo(string type)
+    public void ShowExtraTowerInfo(string type, Tower tower=null)
     {
         if(type=="Farm")
         {
             farmInfoPanel.SetActive(true);
+        }
+        chosenTower = tower;
+        if(type=="Patrol")
+        {
+            patrolInfoPanel.SetActive(true);
         }
     }
     public void TogglePlacingMode(bool state)
