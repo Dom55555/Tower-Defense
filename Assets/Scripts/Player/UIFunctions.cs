@@ -22,8 +22,6 @@ public class UIFunctions : MonoBehaviour
     {
         instance = this;
     }
-
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -36,7 +34,14 @@ public class UIFunctions : MonoBehaviour
         }
         if(chosenTower!=null)
         {
-            patrolTimerText.text = chosenTower.patrolTimer + " S";
+            if(chosenTower.towerName=="Patrol")
+            {
+                patrolTimerText.text = chosenTower.timer + " S";
+            }
+            else if (chosenTower.towerName == "Commander")
+            {
+                //
+            }
         }
     }
     public void ToggleCameraAbove()

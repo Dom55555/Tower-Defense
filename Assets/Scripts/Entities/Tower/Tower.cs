@@ -22,14 +22,13 @@ public class Tower : MonoBehaviour
     public float priceMult = 1;
     public bool justPlaced;
 
-    private Enemy targetEnemy = null;
+    public float timer = 0;
 
+    private Enemy targetEnemy = null;
     //patrol
-    public float patrolTimer = 0;
     private int currentPoint = 1;
     private Transform soldier;
     public Transform[] wayPoints;
-
     private void Update()
     {
         if(justPlaced && towerName != "Farm" && !towerName.Contains("Patrol"))
@@ -177,14 +176,14 @@ public class Tower : MonoBehaviour
     }
     private IEnumerator PatrolSpawning()
     {
-        patrolTimer = 2;
+        timer = 2;
         while(true)
         {
-            patrolTimer -= 1;
-            if(patrolTimer<=0)
+            timer -= 1;
+            if(timer<=0)
             {
                 TowerManager.instance.SpawnPatrolCar(level);
-                patrolTimer = firerate;
+                timer = firerate;
             }
             yield return new WaitForSeconds(1);
         }

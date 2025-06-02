@@ -264,4 +264,9 @@ public class TowerManager : MonoBehaviour
         towerComponent.canSeeHiddens = level==4?false:true;
         towerComponent.canSeeFlyings = true;
     }
+    public void UseAbility()
+    {
+        if(chosenTower)
+        chosenTower.animator.Play("Ability", -1, 0f);
+    }
 }
