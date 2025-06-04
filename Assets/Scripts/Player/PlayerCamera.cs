@@ -65,7 +65,7 @@ public class PlayerCamera : MonoBehaviour
                 UIFunctions.instance.ToggleTowerInfo(true);
                 TowerManager.instance.TowerSelected(chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>());
                 string towerName = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>().towerName;
-                if (towerName == "Farm" || towerName == "Patrol") UIFunctions.instance.ShowExtraTowerInfo(towerName, entityTransform.GetComponent<Tower>());
+                if (towerName == "Farm" || towerName == "Patrol" || towerName=="Commander") UIFunctions.instance.ShowExtraTowerInfo(towerName, entityTransform.GetComponent<Tower>());
             }
         }
     }
@@ -108,8 +108,7 @@ public class PlayerCamera : MonoBehaviour
                         if (chosenEntityInfo.GetComponent<EntityUI>().entityTransform != null)
                         {
                             Transform placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
-                            if (placement != null)
-                                placement.GetComponent<MeshRenderer>().enabled = false;
+                            if (placement != null) placement.GetComponent<MeshRenderer>().enabled = false;
                         }
                         Destroy(chosenEntityInfo);
                         chosenEntityInfo = null;

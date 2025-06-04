@@ -1,7 +1,10 @@
 using System.Runtime.CompilerServices;
 using TMPro;
+using System;
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
+using System.Collections;
 
 public class TowerManager : MonoBehaviour
 {
@@ -31,17 +34,18 @@ public class TowerManager : MonoBehaviour
     public TMP_Text nextFlyingsText;
     [Header("Extra Info Panel Variables")]
     public TMP_Text moneyPerWaveText;
+    public TMP_Text firerateBuffText;
     [Header("Other Variables:")]
     public Tower chosenTower;
     public bool placingTower = false;
     public int moneyPerWave = 0;
 
-
+    private Transform[] wayPoints;
     private GameObject previewTower;
     private Camera mainCam;
     private int[] farmIncomeByLevel = { 50, 50, 100, 300, 1000 };
+    private int[] firerateBuffs = {10,15,20,25,35};
     private int selectedIndex = -1;
-    private Transform[] wayPoints;
 
     void Start()
     {
@@ -78,14 +82,8 @@ public class TowerManager : MonoBehaviour
         if (placingTower)
         {
             PreviewPlacement();
-            if (Input.GetMouseButtonDown(0))
-            {
-                TryPlaceTower();
-            }
-            else if (Input.GetMouseButtonDown(1))
-            {
-                CancelPlacement();
-            }
+            if (Input.GetMouseButtonDown(0)) TryPlaceTower();
+            else if (Input.GetMouseButtonDown(1)) CancelPlacement();
         }
     }
     private void SetPreviewTower()
@@ -138,10 +136,7 @@ public class TowerManager : MonoBehaviour
     private void SetLayerRecursive(Transform obj, int layer)
     {
         obj.gameObject.layer = layer;
-        foreach (Transform child in obj)
-        {
-            SetLayerRecursive(child, layer);
-        }
+        foreach (Transform child in obj) SetLayerRecursive(child, layer);
     }
     public void UpgradeTower()
     {
@@ -166,16 +161,20 @@ public class TowerManager : MonoBehaviour
         if(chosenTower!=selectedTower && chosenTower!=null)
         {
             chosenTower.transform.Find("Range").gameObject.SetActive(false);
+            if(chosenTower.towerName=="Commander") ToggleBuffText(false);
         }
         chosenTower = selectedTower;
         chosenTower.transform.Find("Range").gameObject.SetActive(true);
+        if (chosenTower.towerName == "Commander") ToggleBuffText(true);
         SetInfoVariables();
         SetExtraInfoVariables(false);
+
     }
     public void TowerDeselected()
     {
         if (chosenTower == null) return;
         chosenTower.transform.Find("Range").gameObject.SetActive(false);
+        if(chosenTower.towerName=="Commander") ToggleBuffText(false);
         chosenTower = null;
     }
     private void SetInfoVariables()
@@ -183,7 +182,7 @@ public class TowerManager : MonoBehaviour
         towerName.text = chosenTower.towerName;
         levelText.text = chosenTower.level + " Level";
         TowerData.TowerLevel levelInfo = towers.FirstOrDefault(x => x.towerName == chosenTower.towerName).levels[chosenTower.level-1];
-        dmgText.text = levelInfo.damage+"DMG";
+        dmgText.text = levelInfo.damage+" DMG";
         firerateText.text = levelInfo.firerate + " S";
         rangeText.text = levelInfo.range.ToString();
         hiddensText.text = levelInfo.seeHidden ? "Yes" : "No";
@@ -205,11 +204,7 @@ public class TowerManager : MonoBehaviour
         }
         else
         {
-            nextDmgText.text = "";
-            nextFirerateText.text = "";
-            nextRangeText.text = "";
-            nextHiddensText.text = "";
-            nextFlyingsText.text = "";
+            nextDmgText.text = nextFirerateText.text = nextRangeText.text = nextHiddensText.text = nextFlyingsText.text = "";
             priceText.text = "MAXED";
         }
     }
@@ -217,25 +212,22 @@ public class TowerManager : MonoBehaviour
     {
         if (chosenTower.towerName == "Farm")
         {
-            int money = 0;
-            for (int i = 0; i < chosenTower.level; i++)
-            {
-                money += farmIncomeByLevel[i];
-            }
-            moneyPerWaveText.text = "+" + money + "$";
-            if(changeValues) moneyPerWave += farmIncomeByLevel[chosenTower.level - 1];
+            moneyPerWaveText.text = "+" + farmIncomeByLevel.Take(chosenTower.level).Sum()+ "$";
+            if (changeValues) moneyPerWave += farmIncomeByLevel[chosenTower.level - 1];
+        }
+        if(chosenTower.towerName == "Commander")
+        {
+            firerateBuffText.text = "+" + firerateBuffs[chosenTower.level - 1] + "%";
         }
     }
     public void DeleteTower()
     {
         if (chosenTower.towerName == "Farm")
+            moneyPerWave -= farmIncomeByLevel.Take(chosenTower.level).Sum();
+        else if(chosenTower.towerName=="Commander")
         {
-            int totalIncome = 0;
-            for (int i = 0; i < chosenTower.level; i++)
-            {
-                totalIncome += farmIncomeByLevel[i];
-            }
-            moneyPerWave -= totalIncome;
+            foreach (var tower in chosenTower.towersInRange) tower.firerateMult = 1;
+            ToggleBuffText(false);
         }
         Destroy(chosenTower.gameObject);
         chosenTower = null;
@@ -255,8 +247,8 @@ public class TowerManager : MonoBehaviour
         var patrolInfo = towers.FirstOrDefault(x => x.towerName == "Patrol");
         GameObject patrolPrefab = patrolInfo.extraPrefab;
         GameObject patrolCar = Instantiate(patrolPrefab, wayPoints[0].position,Quaternion.identity);
-        patrolCar.GetComponent<Tower>().wayPoints = wayPoints;
         Tower towerComponent = patrolCar.GetComponent<Tower>();
+        towerComponent.wayPoints = wayPoints;
         towerComponent.justPlaced = true;
         towerComponent.level = level;
         towerComponent.damage = patrolInfo.levels[level-1].damage;
@@ -264,9 +256,40 @@ public class TowerManager : MonoBehaviour
         towerComponent.canSeeHiddens = level==4?false:true;
         towerComponent.canSeeFlyings = true;
     }
+    private void ToggleBuffText(bool state)
+    {
+        foreach (var tower in chosenTower.towersInRange)
+        {
+            var textObject = tower.transform.Find("FirerateBuff");
+            textObject.gameObject.SetActive(state);
+        }
+    }
     public void UseAbility()
     {
-        if(chosenTower)
+        if (chosenTower.timer > 0) return;
         chosenTower.animator.Play("Ability", -1, 0f);
+        if (chosenTower.towerName == "Commander")
+        {
+            chosenTower.timer = 30;
+            StartCoroutine(AbilityTimer(chosenTower));
+            foreach (var tower in chosenTower.towersInRange)
+            {
+                if(tower!=null)
+                {
+                    tower.firerateMult = 1 / (1 + (1f / tower.firerateMult - 1) * 2);
+                }
+            }
+        }
+    }
+    private IEnumerator AbilityTimer(Tower abilityTower)
+    {
+        yield return new WaitForSeconds(10);
+        if (abilityTower != null)
+        {
+            foreach (var tower in abilityTower.towersInRange)
+            {
+                if(tower!=null) tower.firerateMult = 1 / (1 + firerateBuffs[abilityTower.level - 1] / 100f);
+            }
+        }
     }
 }

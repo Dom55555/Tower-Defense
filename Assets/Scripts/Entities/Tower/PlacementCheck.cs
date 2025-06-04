@@ -36,7 +36,6 @@ public class PlacementCheck : MonoBehaviour
         }
         UpdateMaterial();
     }
-
     void OnTriggerExit(Collider other)
     {
         if (touchingValid.Contains(other))
@@ -45,7 +44,6 @@ public class PlacementCheck : MonoBehaviour
             touchingInvalid.Remove(other);
         UpdateMaterial();
     }
-
     void UpdateMaterial()
     {
         previewRenderer.material = IsValidPlacement ? validPlacement : invalidPlacement;

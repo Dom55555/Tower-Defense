@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,30 +22,57 @@ public class Tower : MonoBehaviour
     public float firerateMult = 1;
     public float priceMult = 1;
     public bool justPlaced;
+    public bool preview = true;
 
     public float timer = 0;
 
     private Enemy targetEnemy = null;
+    private TMP_Text firerateText;
+    //ranger
+    private LineRenderer lr;
     //patrol
+    public Transform[] wayPoints;
     private int currentPoint = 1;
     private Transform soldier;
-    public Transform[] wayPoints;
+    //commander
+    public List<Tower> towersInRange = new List<Tower>();
+    public int[] firerateBuffs = new int[5] {10,15,20,25,35};
+
+
+    private void Start()
+    {
+        if (justPlaced == false)
+        {
+            preview = true;
+        }
+        else preview = false;
+        if (transform.Find("FirerateBuff") != null) firerateText = transform.Find("FirerateBuff").GetComponent<TMP_Text>();
+    }
     private void Update()
     {
-        if(justPlaced && towerName != "Farm" && !towerName.Contains("Patrol"))
+        if(justPlaced)
         {
-            StartCoroutine(Targeting());
-            StartCoroutine(Shooting());
             justPlaced = false;
+            switch (towerName)
+            {
+                case "Farm":
+                    break;
+                case "Commander":
+                    StartCoroutine(CommanderAbility());
+                    StartCoroutine(CommanderBuffs());
+                    break;
+                case "Patrol":
+                    StartCoroutine(PatrolSpawning());
+                    break;
+                default: //all other towers
+                    StartCoroutine(Targeting());
+                    StartCoroutine(Shooting());
+                    break;
+            }
         }
-        if(justPlaced && towerName == "Patrol")
+        if (towerName == "PatrolCar")
         {
-            StartCoroutine(PatrolSpawning());
-            justPlaced = false;
-        }
-        if(towerName=="PatrolCar")
-        {
-            if(justPlaced && level>3)
+            if (justPlaced && level > 3)
             {
                 soldier = transform.Find("Soldier");
                 soldier.gameObject.SetActive(true);
@@ -61,12 +89,16 @@ public class Tower : MonoBehaviour
             }
         }
     }
+    private void OnDestroy()
+    {
+        Destroy(lr);
+    }
     private IEnumerator Targeting()
     {
         while (true)
         {
-            List<Enemy> enemiesToRemove = new List<Enemy>();
-            if(enemiesInRange.Count==0)
+            enemiesInRange.RemoveAll(x => x == null);
+            if (enemiesInRange.Count==0)
             {
                 targetEnemy = null;
                 yield return new WaitForSeconds(0.2f);
@@ -77,7 +109,6 @@ public class Tower : MonoBehaviour
                 float mostWalked = -1;
                 foreach (var enemy in enemiesInRange)
                 {
-                    if(enemy==null) enemiesToRemove.Add(enemy);
                     if (enemy.distanceWalked > mostWalked && (
                         (canSeeHiddens&&enemy.status.Contains("Hidden"))||
                         (!enemy.status.Contains("Hidden")&&enemy.status!="Flying")||
@@ -94,7 +125,6 @@ public class Tower : MonoBehaviour
                 float mostHp = 0;
                 foreach (var enemy in enemiesInRange)
                 {
-                    if (enemy == null) enemiesToRemove.Add(enemy);
                     if (enemy.hp+enemy.shieldHp>mostHp)
                     {
                         mostHp = enemy.hp+enemy.shieldHp;
@@ -102,7 +132,6 @@ public class Tower : MonoBehaviour
                     }
                 }
             }
-            foreach (var enemy in enemiesToRemove) enemiesInRange.Remove(enemy);
             yield return new WaitForSeconds(0.1f); 
         }
     }
@@ -136,6 +165,7 @@ public class Tower : MonoBehaviour
                     Destroy(targetEnemy.gameObject);
                     targetEnemy = null;
                 }
+                Debug.Log(firerate*firerateMult+" at " + Time.time);
                 yield return new WaitForSeconds(firerate*firerateMult);
             }
             else yield return new WaitForSeconds(0.05f);
@@ -144,7 +174,7 @@ public class Tower : MonoBehaviour
     private void RangerTrail()
     {
         GameObject lineObj = new GameObject("BulletTrail");
-        LineRenderer lr = lineObj.AddComponent<LineRenderer>();
+        lr = lineObj.AddComponent<LineRenderer>();
 
         lr.material = new Material(Shader.Find("Sprites/Default"));
 
@@ -158,9 +188,9 @@ public class Tower : MonoBehaviour
         lr.endColor = new Color(1f, 1f, 1f, 1f);
         lr.alignment = LineAlignment.View;
 
-        StartCoroutine(FadeLineRenderer(lr, 0.5f));
+        StartCoroutine(FadeLineRenderer(0.5f));
     }
-    private IEnumerator FadeLineRenderer(LineRenderer lr, float duration)
+    private IEnumerator FadeLineRenderer(float duration)
     {
         float time = 0f;
         Color startColor = lr.startColor;
@@ -221,5 +251,32 @@ public class Tower : MonoBehaviour
             }
             else yield return new WaitForSeconds(0.05f);
         }
+    }
+    private IEnumerator CommanderAbility()
+    {
+        timer = 2;
+        while (true)
+        {
+            if(timer>0) timer -= 1;
+            yield return new WaitForSeconds(1);
+        }
+    }
+    private IEnumerator CommanderBuffs()
+    {
+        while (true)
+        {
+            towersInRange.RemoveAll(x => x == null);
+            foreach (var tower in towersInRange)
+            {
+                if (tower.firerateMult > 1 / (1 + firerateBuffs[level - 1] / 100f)) tower.firerateMult = 1/(1+firerateBuffs[level - 1]/100f);
+                tower.ChangeBuffValue();
+            }
+            yield return new WaitForSeconds(0.8f);
+        }
+    }
+    public void ChangeBuffValue()
+    {
+        int percent = Mathf.RoundToInt((1 / firerateMult - 1) * 100);
+        firerateText.text = "+" + percent + "%";
     }
 }

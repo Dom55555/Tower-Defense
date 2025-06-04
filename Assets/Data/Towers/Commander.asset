@@ -12,8 +12,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25e5f3194389e14ca238cda68f444b4, type: 3}
   m_Name: Commander
   m_EditorClassIdentifier: 
-  towerName: 
-  placePrice: 0
-  towerPrefab: {fileID: 0}
+  towerName: Commander
+  placePrice: 650
+  towerPrefab: {fileID: 3363017452447735818, guid: a841c857d707ecf4c95bfd0f883677ad,
+    type: 3}
   extraPrefab: {fileID: 0}
-  levels: []
+  levels:
+  - price: 0
+    range: 4
+    damage: 0
+    firerate: 0
+    seeHidden: 0
+    seeFlying: 0
+  - price: 800
+    range: 4
+    damage: 0
+    firerate: 0
+    seeHidden: 0
+    seeFlying: 0
+  - price: 1700
+    range: 5
+    damage: 0
+    firerate: 0
+    seeHidden: 0
+    seeFlying: 0
+  - price: 3600
+    range: 5
+    damage: 0
+    firerate: 0
+    seeHidden: 0
+    seeFlying: 0
+  - price: 7800
+    range: 6
+    damage: 0
+    firerate: 0
+    seeHidden: 0
+    seeFlying: 0

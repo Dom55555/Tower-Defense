@@ -8,9 +8,14 @@ public class UIFunctions : MonoBehaviour
     public static UIFunctions instance;
     public GameObject placingModePanel;
     public GameObject towerInfoPanel;
+
     public GameObject farmInfoPanel;
     public GameObject patrolInfoPanel;
+    public GameObject commanderInfoPanel;
+
     public TMP_Text patrolTimerText;
+    public TMP_Text commanderTimerText;
+
     public TMP_Text waveMoneyText;
     public bool freezeCameraPosition = false;
     public bool freezeCameraRotation = false;
@@ -32,15 +37,24 @@ public class UIFunctions : MonoBehaviour
         {
             ToggleCameraAbove();
         }
-        if(chosenTower!=null)
+        if (chosenTower != null)
         {
-            if(chosenTower.towerName=="Patrol")
+            if (chosenTower.towerName == "Patrol")
             {
                 patrolTimerText.text = chosenTower.timer + " S";
             }
             else if (chosenTower.towerName == "Commander")
             {
-                //
+                if (chosenTower.timer == 0)
+                {
+                    commanderTimerText.text = "READY";
+                    commanderTimerText.fontSize = 17;
+                }
+                else
+                {
+                    commanderTimerText.text = chosenTower.timer.ToString();
+                    commanderTimerText.fontSize = 25;
+                }
             }
         }
     }
@@ -61,21 +75,28 @@ public class UIFunctions : MonoBehaviour
     public void ToggleTowerInfo(bool state)
     {
         towerInfoPanel.SetActive(state);
+
         farmInfoPanel.SetActive(false);
         patrolInfoPanel.SetActive(false);
+        commanderInfoPanel.SetActive(false);
+
         freezeCameraRotation = state;
         Cursor.lockState = state?CursorLockMode.None:CursorLockMode.Locked;
     }
-    public void ShowExtraTowerInfo(string type, Tower tower=null)
+    public void ShowExtraTowerInfo(string towerName, Tower tower=null)
     {
-        if(type=="Farm")
+        chosenTower = tower;
+        if(towerName=="Farm")
         {
             farmInfoPanel.SetActive(true);
         }
-        chosenTower = tower;
-        if(type=="Patrol")
+        else if(towerName=="Patrol")
         {
             patrolInfoPanel.SetActive(true);
+        }
+        else if (towerName == "Commander")
+        {
+            commanderInfoPanel.SetActive(true);
         }
     }
     public void TogglePlacingMode(bool state)

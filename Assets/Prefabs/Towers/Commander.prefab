@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.002, z: 0}
-  m_LocalScale: {x: 8, y: 0.1, z: 8}
+  m_LocalScale: {x: 4, y: 0.1, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1525309438116521075}
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 6106002897277712309}
   m_Layer: 10
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 7507858362671749505}
   m_Layer: 10
   m_Name: Cube (5)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 6933674414727017522}
   m_Layer: 10
   m_Name: Cube (6)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -640,7 +640,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 6, z: 8}
+  m_LocalScale: {x: 4, y: 6, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1525309438116521075}
@@ -730,7 +730,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ac3d3abfc61644d803e3e7bd6fb3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 3326128634936913428}
 --- !u!1 &2488865996953339713
 GameObject:
   m_ObjectHideFlags: 0
@@ -862,7 +861,7 @@ Transform:
   m_GameObject: {fileID: 2575017268281741825}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.9309826, y: 0.29337484, z: 1.273}
+  m_LocalPosition: {x: 0.808, y: 0.29337484, z: 1.273}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -901,8 +900,8 @@ Transform:
   m_GameObject: {fileID: 2925889622448922524}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1057252, z: 0}
-  m_LocalScale: {x: 1.1627907, y: 0.15701379, z: 1.1627907}
+  m_LocalPosition: {x: -0.0035, y: 1.1057252, z: -0.0108}
+  m_LocalScale: {x: 1.1510653, y: 0.15701379, z: 1.0895842}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6661855069715679330}
@@ -1053,7 +1052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 5734167219024569660}
   mode: First
-  towerName: Scout
+  towerName: Commander
   firerate: 1
   damage: 4
   canSeeHiddens: 0
@@ -1064,8 +1063,10 @@ MonoBehaviour:
   firerateMult: 1
   priceMult: 1
   justPlaced: 0
+  preview: 1
   timer: 0
   wayPoints: []
+  towersInRange: []
 --- !u!1 &3532135966874007190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,7 +1186,7 @@ GameObject:
   - component: {fileID: 1806320937890843948}
   m_Layer: 10
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1395,7 +1396,7 @@ GameObject:
   - component: {fileID: 1870842405916100844}
   m_Layer: 10
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1409,8 +1410,8 @@ Transform:
   m_GameObject: {fileID: 4621188833779853130}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.025, y: 0.2898, z: 0.011}
-  m_LocalScale: {x: 1.075012, y: 0.4205, z: 1.136187}
+  m_LocalPosition: {x: 0.0248, y: 0.293, z: 0.019}
+  m_LocalScale: {x: 1.0746895, y: 0.42697573, z: 1.1520936}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4860380651428567443}
@@ -1500,7 +1501,7 @@ GameObject:
   - component: {fileID: 1810754615433294478}
   m_Layer: 10
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1605,7 +1606,7 @@ GameObject:
   - component: {fileID: 7687328049256019664}
   m_Layer: 10
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2088,7 +2089,7 @@ GameObject:
   - component: {fileID: 6563660752135992995}
   m_Layer: 10
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2193,7 +2194,7 @@ GameObject:
   - component: {fileID: 4002684448956043046}
   m_Layer: 10
   m_Name: LeftArm
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2207,7 +2208,7 @@ Transform:
   m_GameObject: {fileID: 7612417141196717168}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.122, y: 1.177, z: -0.36899996}
+  m_LocalPosition: {x: -0.0009820238, y: 1.177, z: -0.36899996}
   m_LocalScale: {x: 0.29533428, y: 0.24665791, z: 0.22273774}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2301,7 +2302,7 @@ GameObject:
   - component: {fileID: 1392286245192722331}
   m_Layer: 10
   m_Name: Cube (4)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2406,7 +2407,7 @@ GameObject:
   - component: {fileID: 8995891344237084625}
   m_Layer: 10
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2511,7 +2512,7 @@ GameObject:
   - component: {fileID: 1799845606146561688}
   m_Layer: 10
   m_Name: Cap
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
