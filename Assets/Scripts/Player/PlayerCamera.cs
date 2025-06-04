@@ -16,7 +16,6 @@ public class PlayerCamera : MonoBehaviour
 
     private float xRotation = 0f;
     private float yRotation = 0f;
-
     private float speed = 0;
     private GameObject chosenEntityInfo = null;
 
@@ -33,8 +32,7 @@ public class PlayerCamera : MonoBehaviour
         bool allowRotation = !UIFunctions.instance.freezeCameraRotation || Input.GetMouseButton(1);
         if (allowRotation)
         {
-            xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            xRotation = Mathf.Clamp(xRotation - mouseY, -90f, 90f);
             yRotation += mouseX;
             transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
         }
@@ -63,25 +61,26 @@ public class PlayerCamera : MonoBehaviour
             {
                 if (entityTransform.GetComponent<Tower>().towerName == "PatrolCar") return;
                 UIFunctions.instance.ToggleTowerInfo(true);
-                TowerManager.instance.TowerSelected(chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>());
-                string towerName = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>().towerName;
-                UIFunctions.instance.ShowExtraTowerInfo(towerName, entityTransform.GetComponent<Tower>());
+                Tower tower = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>();
+                TowerManager.instance.TowerSelected(tower);
+                UIFunctions.instance.ShowExtraTowerInfo(tower.towerName, entityTransform.GetComponent<Tower>());
             }
         }
     }
 
     private IEnumerator CheckEntityInfo()
     {
+        while (TowerManager.instance == null) yield return null;
         while (true)
         {
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, 100f, EntityLayer))
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, EntityLayer) && !TowerManager.instance.placingTower)
             {
-                if((hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Tower"))&&(chosenEntityInfo == null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.root))
+                if ((hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Tower")) && (chosenEntityInfo == null || chosenEntityInfo.GetComponent<EntityUI>().entityTransform != hit.collider.transform.root))
                 {
                     if (chosenEntityInfo != null)
                     {
-                        if(chosenEntityInfo.GetComponent<EntityUI>().entityTransform!=null)
+                        if (chosenEntityInfo.GetComponent<EntityUI>().entityTransform != null)
                         {
                             var placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
                             if (placement != null) placement.GetComponent<MeshRenderer>().enabled = false;
@@ -94,7 +93,7 @@ public class PlayerCamera : MonoBehaviour
                     }
                     else if (hit.collider.CompareTag("Tower"))
                     {
-                        if(hit.collider.transform.root.GetComponent<Tower>().towerName=="PatrolCar") chosenEntityInfo = Instantiate(patrolCarInfoPrefab, hit.collider.transform.root.Find("Placement").position, Quaternion.identity);
+                        if (hit.collider.transform.root.GetComponent<Tower>().towerName == "PatrolCar") chosenEntityInfo = Instantiate(patrolCarInfoPrefab, hit.collider.transform.root.Find("Placement").position, Quaternion.identity);
                         else chosenEntityInfo = Instantiate(towerInfoPrefab, hit.collider.transform.root.Find("Placement").position, Quaternion.identity);
                     }
                     chosenEntityInfo.GetComponent<EntityUI>().entityTransform = hit.collider.transform.root;
@@ -105,17 +104,25 @@ public class PlayerCamera : MonoBehaviour
                 {
                     if (chosenEntityInfo != null)
                     {
-                        if (chosenEntityInfo.GetComponent<EntityUI>().entityTransform != null)
-                        {
-                            Transform placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
-                            if (placement != null) placement.GetComponent<MeshRenderer>().enabled = false;
-                        }
-                        Destroy(chosenEntityInfo);
-                        chosenEntityInfo = null;
+                        RemoveChosenEntityInfo();
                     }
                 }
             }
+            else if (chosenEntityInfo != null)
+            {
+                RemoveChosenEntityInfo();
+            }
             yield return new WaitForSeconds(0.2f);
         }
+    }
+    private void RemoveChosenEntityInfo()
+    {
+        if (chosenEntityInfo.GetComponent<EntityUI>().entityTransform != null)
+        {
+            Transform placement = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.Find("Placement");
+            if (placement != null) placement.GetComponent<MeshRenderer>().enabled = false;
+        }
+        Destroy(chosenEntityInfo);
+        chosenEntityInfo = null;
     }
 }
