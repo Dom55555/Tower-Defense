@@ -114,6 +114,7 @@ public class TowerManager : MonoBehaviour
             if (check != null && check.IsValidPlacement)
             {
                 GameObject realTower = Instantiate(towers[selectedIndex].towerPrefab, hit.point, Quaternion.identity);
+                Destroy(realTower.transform.Find("Placement").GetComponent<PlacementCheck>());
                 Tower towerComponent = realTower.GetComponent<Tower>();
                 towerComponent.justPlaced = true;
                 towerComponent.damage = towers[selectedIndex].levels[0].damage;

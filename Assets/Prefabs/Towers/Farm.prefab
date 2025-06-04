@@ -229,7 +229,7 @@ MonoBehaviour:
     m_Bits: 8
   invalidLayers:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 1600
   validPlacement: {fileID: 2100000, guid: dd2a1f4bb13d51e4bab87977c2f63502, type: 2}
   invalidPlacement: {fileID: 2100000, guid: b550a4ccbd853564a85549fa954083d2, type: 2}
 --- !u!54 &7735265735208238908
@@ -1578,7 +1578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ac3d3abfc61644d803e3e7bd6fb3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 452528890860658427}
 --- !u!1 &3591488482256811167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1628,18 +1627,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  enemiesInRange: []
   mode: First
   towerName: Farm
-  level: 1
   firerate: 0
   damage: 0
   canSeeHiddens: 0
   canSeeFlyings: 0
+  enemiesInRange: []
+  level: 1
   rangeMult: 1
   firerateMult: 1
   priceMult: 1
   justPlaced: 0
+  preview: 1
+  timer: 0
+  wayPoints: []
+  towersInRange: []
+  firerateBuffs: 0a0000000f000000140000001900000023000000
 --- !u!1 &3963049974093100664
 GameObject:
   m_ObjectHideFlags: 0

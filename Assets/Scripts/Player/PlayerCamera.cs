@@ -56,21 +56,21 @@ public class PlayerCamera : MonoBehaviour
             pos.z = Mathf.Clamp(pos.z, -20f, 32f);
             transform.position = pos;
         }
-        if(chosenEntityInfo!=null)
+        if(chosenEntityInfo!=null && !UIFunctions.IsPointerOverUI())
         {
             Transform entityTransform = chosenEntityInfo.GetComponent<EntityUI>().entityTransform;
-            if(Input.GetMouseButtonDown(0) && entityTransform.CompareTag("Tower"))
+            if (Input.GetMouseButtonDown(0) && entityTransform.CompareTag("Tower"))
             {
                 if (entityTransform.GetComponent<Tower>().towerName == "PatrolCar") return;
                 UIFunctions.instance.ToggleTowerInfo(true);
                 TowerManager.instance.TowerSelected(chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>());
                 string towerName = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>().towerName;
-                if (towerName == "Farm" || towerName == "Patrol" || towerName=="Commander") UIFunctions.instance.ShowExtraTowerInfo(towerName, entityTransform.GetComponent<Tower>());
+                UIFunctions.instance.ShowExtraTowerInfo(towerName, entityTransform.GetComponent<Tower>());
             }
         }
     }
 
-    IEnumerator CheckEntityInfo()
+    private IEnumerator CheckEntityInfo()
     {
         while (true)
         {

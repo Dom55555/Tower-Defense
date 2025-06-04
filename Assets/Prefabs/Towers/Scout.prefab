@@ -608,7 +608,7 @@ MonoBehaviour:
     m_Bits: 8
   invalidLayers:
     serializedVersion: 2
-    m_Bits: 576
+    m_Bits: 1600
   validPlacement: {fileID: 2100000, guid: dd2a1f4bb13d51e4bab87977c2f63502, type: 2}
   invalidPlacement: {fileID: 2100000, guid: b550a4ccbd853564a85549fa954083d2, type: 2}
 --- !u!54 &3564209326057701135

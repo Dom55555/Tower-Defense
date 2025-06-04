@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UIFunctions : MonoBehaviour
 {
     public static UIFunctions instance;
     public GameObject placingModePanel;
     public GameObject towerInfoPanel;
+
+    public GameObject firerateBuffIcon;
+    public GameObject rangeBuffIcon;
+    public GameObject discountBuffIcon;
 
     public GameObject farmInfoPanel;
     public GameObject patrolInfoPanel;
@@ -80,10 +85,13 @@ public class UIFunctions : MonoBehaviour
         patrolInfoPanel.SetActive(false);
         commanderInfoPanel.SetActive(false);
 
+        firerateBuffIcon.SetActive(false);
+        rangeBuffIcon.SetActive(false);
+        discountBuffIcon.SetActive(false);
         freezeCameraRotation = state;
         Cursor.lockState = state?CursorLockMode.None:CursorLockMode.Locked;
     }
-    public void ShowExtraTowerInfo(string towerName, Tower tower=null)
+    public void ShowExtraTowerInfo(string towerName, Tower tower)
     {
         chosenTower = tower;
         if(towerName=="Farm")
@@ -98,6 +106,9 @@ public class UIFunctions : MonoBehaviour
         {
             commanderInfoPanel.SetActive(true);
         }
+        if (tower.firerateMult < 1) firerateBuffIcon.SetActive(true);
+        if (tower.rangeMult > 1) rangeBuffIcon.SetActive(true);
+        if (tower.priceMult < 1) discountBuffIcon.SetActive(true);
     }
     public void TogglePlacingMode(bool state)
     {
@@ -117,5 +128,9 @@ public class UIFunctions : MonoBehaviour
             yield return null;
         }
         waveMoneyText.gameObject.SetActive(false);
+    }
+    public static bool IsPointerOverUI()
+    {
+        return EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
     }
 }

@@ -15,7 +15,7 @@ public class PlacementCheck : MonoBehaviour
 
     public bool IsValidPlacement => touchingValid.Count > 0 && touchingInvalid.Count == 0;
 
-    void Awake()
+    void Start()
     {
         previewRenderer = GetComponentInChildren<Renderer>();
     }

@@ -64,6 +64,15 @@ public class Tower : MonoBehaviour
                 case "Patrol":
                     StartCoroutine(PatrolSpawning());
                     break;
+                case "PatrolCar":
+                    if(level > 3)
+                    {
+                        soldier = transform.Find("Soldier");
+                        soldier.gameObject.SetActive(true);
+                        StartCoroutine(Targeting());
+                        StartCoroutine(PatrolShooting());
+                    }
+                    break;
                 default: //all other towers
                     StartCoroutine(Targeting());
                     StartCoroutine(Shooting());
@@ -72,14 +81,6 @@ public class Tower : MonoBehaviour
         }
         if (towerName == "PatrolCar")
         {
-            if (justPlaced && level > 3)
-            {
-                soldier = transform.Find("Soldier");
-                soldier.gameObject.SetActive(true);
-                StartCoroutine(Targeting());
-                StartCoroutine(PatrolShooting());
-                justPlaced = false;
-            }
             transform.position += transform.forward * 2 * Time.deltaTime;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(wayPoints[currentPoint].position - transform.position), 4 * Time.deltaTime);
             if (Vector3.Distance(transform.position, wayPoints[currentPoint].position) < 0.1f)
@@ -181,7 +182,7 @@ public class Tower : MonoBehaviour
         lr.startWidth = 0.05f;
         lr.endWidth = 0.05f;
 
-        lr.SetPosition(0, transform.Find("Muzzle").position);
+        lr.SetPosition(0, transform.Find("Gun").Find("Muzzle").position);
         lr.SetPosition(1, targetEnemy.transform.Find("Target").position);
 
         lr.startColor = new Color(1f, 1f, 1f, 1f);
