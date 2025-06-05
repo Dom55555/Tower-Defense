@@ -17,6 +17,7 @@ public class UIFunctions : MonoBehaviour
     public GameObject farmInfoPanel;
     public GameObject patrolInfoPanel;
     public GameObject commanderInfoPanel;
+    public GameObject djInfoPanel;
 
     public TMP_Text patrolTimerText;
     public TMP_Text commanderTimerText;
@@ -84,6 +85,7 @@ public class UIFunctions : MonoBehaviour
         farmInfoPanel.SetActive(false);
         patrolInfoPanel.SetActive(false);
         commanderInfoPanel.SetActive(false);
+        djInfoPanel.SetActive(false);
 
         firerateBuffIcon.SetActive(false);
         rangeBuffIcon.SetActive(false);
@@ -91,20 +93,24 @@ public class UIFunctions : MonoBehaviour
         freezeCameraRotation = state;
         Cursor.lockState = state?CursorLockMode.None:CursorLockMode.Locked;
     }
-    public void ShowExtraTowerInfo(string towerName, Tower tower)
+    public void ShowExtraTowerInfo(Tower tower)
     {
         chosenTower = tower;
-        if(towerName=="Farm")
+        if(tower.towerName=="Farm")
         {
             farmInfoPanel.SetActive(true);
         }
-        else if(towerName=="Patrol")
+        else if(tower.towerName=="Patrol")
         {
             patrolInfoPanel.SetActive(true);
         }
-        else if (towerName == "Commander")
+        else if (tower.towerName == "Commander")
         {
             commanderInfoPanel.SetActive(true);
+        }
+        else if (tower.towerName=="DJ")
+        {
+            djInfoPanel.SetActive(true);
         }
         if (tower.firerateMult < 1) firerateBuffIcon.SetActive(true);
         if (tower.rangeMult > 1) rangeBuffIcon.SetActive(true);

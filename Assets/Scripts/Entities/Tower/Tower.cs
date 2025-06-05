@@ -13,6 +13,7 @@ public class Tower : MonoBehaviour
     public string towerName;
     public float firerate;
     public int damage;
+    public float range;
     public bool canSeeHiddens;
     public bool canSeeFlyings;
     [Header("Other Variables:")]
@@ -22,21 +23,25 @@ public class Tower : MonoBehaviour
     public float firerateMult = 1;
     public float priceMult = 1;
     public bool justPlaced;
-    public bool preview = true;
+    public bool preview;
 
     public float timer = 0;
 
     private Enemy targetEnemy = null;
     private TMP_Text firerateText;
+    private TMP_Text rangeText;
+    private TMP_Text discountText;
     //ranger
     private LineRenderer lr;
     //patrol
     public Transform[] wayPoints;
     private int currentPoint = 1;
     private Transform soldier;
-    //commander
+    //commander and dj
     public List<Tower> towersInRange = new List<Tower>();
-    public int[] firerateBuffs = new int[5] {10,15,20,25,35};
+    private int[] firerateBuffs = new int[5] {10,15,20,25,35};
+    private int[] rangeBuffs = new int[5] { 10, 15, 20, 20, 30 };
+    private int[] discountBuffs = new int[5] { 0, 0, 0, 10, 20 };
 
 
     private void Start()
@@ -47,6 +52,9 @@ public class Tower : MonoBehaviour
         }
         else preview = false;
         if (transform.Find("FirerateBuff") != null) firerateText = transform.Find("FirerateBuff").GetComponent<TMP_Text>();
+        if (transform.Find("RangeBuff") != null) rangeText = transform.Find("RangeBuff").GetComponent<TMP_Text>();
+        if (transform.Find("DiscountBuff") != null) discountText = transform.Find("DiscountBuff").GetComponent<TMP_Text>();
+        ChangeBuffsValues();
     }
     private void Update()
     {
@@ -59,7 +67,10 @@ public class Tower : MonoBehaviour
                     break;
                 case "Commander":
                     StartCoroutine(CommanderAbility());
-                    StartCoroutine(CommanderBuffs());
+                    StartCoroutine(Buffs());
+                    break;
+                case "DJ":
+                    StartCoroutine(Buffs());
                     break;
                 case "Patrol":
                     StartCoroutine(PatrolSpawning());
@@ -166,7 +177,7 @@ public class Tower : MonoBehaviour
                     Destroy(targetEnemy.gameObject);
                     targetEnemy = null;
                 }
-                Debug.Log(firerate*firerateMult+" at " + Time.time);
+                //Debug.Log(firerate*firerateMult+" at " + Time.time);
                 yield return new WaitForSeconds(firerate*firerateMult);
             }
             else yield return new WaitForSeconds(0.05f);
@@ -262,22 +273,39 @@ public class Tower : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
     }
-    private IEnumerator CommanderBuffs()
+    private IEnumerator Buffs()
     {
         while (true)
         {
             towersInRange.RemoveAll(x => x == null);
             foreach (var tower in towersInRange)
             {
-                if (tower.firerateMult > 1 / (1 + firerateBuffs[level - 1] / 100f)) tower.firerateMult = 1/(1+firerateBuffs[level - 1]/100f);
-                tower.ChangeBuffValue();
+                if(towerName=="Commander")
+                {
+                    if (tower.firerateMult > 1 / (1 + firerateBuffs[level - 1] / 100f)) tower.firerateMult = 1/(1+firerateBuffs[level - 1]/100f);
+                    tower.ChangeBuffsValues();
+                }
+                else if (towerName=="DJ")
+                {
+                    tower.rangeMult = 1+rangeBuffs[level-1]/100f;
+                    tower.priceMult = 1 - discountBuffs[level - 1] / 100f;
+                    tower.ChangeBuffsValues();
+                }
             }
             yield return new WaitForSeconds(0.8f);
         }
     }
-    public void ChangeBuffValue()
+    public void ChangeBuffsValues()
     {
         int percent = Mathf.RoundToInt((1 / firerateMult - 1) * 100);
-        firerateText.text = "+" + percent + "%";
+        if(firerateText!=null) firerateText.text = "+" + percent + "%";
+
+        percent = Mathf.RoundToInt((rangeMult-1)*100);
+        if(rangeText!=null) rangeText.text = "+"+percent+"%";
+        transform.Find("Collider").localScale = new Vector3(range * rangeMult, 6, range * rangeMult);
+        transform.Find("Range").localScale = new Vector3(range * rangeMult, 0.1f, range * rangeMult);
+
+        percent = Mathf.RoundToInt((1 - priceMult) * 100);
+        if(discountText!=null) discountText.text = "-"+percent+"%";
     }
 }

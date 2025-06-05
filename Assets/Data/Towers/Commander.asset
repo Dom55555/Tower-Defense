@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Commander
   m_EditorClassIdentifier: 
   towerName: Commander
-  placePrice: 650
+  placePrice: 750
   towerPrefab: {fileID: 3363017452447735818, guid: a841c857d707ecf4c95bfd0f883677ad,
     type: 3}
   extraPrefab: {fileID: 0}

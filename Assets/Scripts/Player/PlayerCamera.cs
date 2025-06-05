@@ -61,9 +61,9 @@ public class PlayerCamera : MonoBehaviour
             {
                 if (entityTransform.GetComponent<Tower>().towerName == "PatrolCar") return;
                 UIFunctions.instance.ToggleTowerInfo(true);
-                Tower tower = chosenEntityInfo.GetComponent<EntityUI>().entityTransform.GetComponent<Tower>();
+                Tower tower = entityTransform.GetComponent<Tower>();
                 TowerManager.instance.TowerSelected(tower);
-                UIFunctions.instance.ShowExtraTowerInfo(tower.towerName, entityTransform.GetComponent<Tower>());
+                UIFunctions.instance.ShowExtraTowerInfo(tower);
             }
         }
     }

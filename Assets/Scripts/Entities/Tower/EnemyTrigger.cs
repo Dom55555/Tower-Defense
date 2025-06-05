@@ -17,7 +17,18 @@ public class EnemyTrigger : MonoBehaviour
             var tower = other.transform.root.GetComponent<Tower>();
             if (other.CompareTag("Tower")&& other.name == "Placement"&&!parent.towersInRange.Contains(tower) && !parent.preview && !tower.preview)
             {
-                if(tower.towerName != "Commander" && !tower.towerName.Contains("Patrol") && tower.towerName!="Farm")
+                if(tower.towerName != "Commander" && tower.towerName!="DJ" && !tower.towerName.Contains("Patrol") && tower.towerName!="Farm")
+                {
+                    parent.towersInRange.Add(other.transform.root.GetComponent<Tower>());
+                }
+            }
+        }
+        else if (parent.towerName=="DJ")
+        {
+            var tower = other.transform.root.GetComponent<Tower>();
+            if (other.CompareTag("Tower") && other.name == "Placement" && !parent.towersInRange.Contains(tower) && !parent.preview && !tower.preview)
+            {
+                if (tower.towerName != "DJ" && tower.towerName!="PatrolCar"&&tower.towerName!="Commander")
                 {
                     parent.towersInRange.Add(other.transform.root.GetComponent<Tower>());
                 }
@@ -30,10 +41,7 @@ public class EnemyTrigger : MonoBehaviour
     }
     private void OnTriggerExit(Collider other )
     {
-        if(parent.towerName=="Commander")
-        {
-
-        }
+        if (parent.towerName == "Commander") { }
         else if (other.CompareTag("Enemy") && other.name == "Body")
         {
             parent.enemiesInRange.Remove(other.transform.parent.GetComponent<Enemy>());

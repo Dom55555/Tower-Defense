@@ -36,13 +36,13 @@ MonoBehaviour:
     firerate: 2.5
     seeHidden: 0
     seeFlying: 1
-  - price: 4800
+  - price: 6125
     range: 28
     damage: 140
     firerate: 2.2
     seeHidden: 0
     seeFlying: 1
-  - price: 12000
+  - price: 18000
     range: 34
     damage: 300
     firerate: 2.5

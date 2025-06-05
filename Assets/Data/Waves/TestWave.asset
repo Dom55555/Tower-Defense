@@ -27,7 +27,7 @@ MonoBehaviour:
       type: 3}
     name: Boss 1
     status: Boss
-    speed: 1.5
+    speed: 2
     hp: 180
     shieldHp: 0
     amount: 1

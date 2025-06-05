@@ -17,7 +17,7 @@ MonoBehaviour:
       type: 3}
     name: Normal Slime
     status: Normal
-    speed: 2
+    speed: 3
     hp: 4
     shieldHp: 0
     amount: 4

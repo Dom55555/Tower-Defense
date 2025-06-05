@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sniper
   m_EditorClassIdentifier: 
   towerName: Sniper
-  placePrice: 150
+  placePrice: 250
   towerPrefab: {fileID: 6058665193692041983, guid: 8b2f54e0e26211b48b41d060e5378f76,
     type: 3}
   extraPrefab: {fileID: 0}
@@ -24,25 +24,25 @@ MonoBehaviour:
     firerate: 2
     seeHidden: 0
     seeFlying: 1
-  - price: 250
+  - price: 300
     range: 20
     damage: 5
     firerate: 1.6
     seeHidden: 0
     seeFlying: 1
-  - price: 500
+  - price: 550
     range: 20
     damage: 10
     firerate: 1.5
     seeHidden: 0
     seeFlying: 1
-  - price: 1250
+  - price: 1100
     range: 22
     damage: 12
     firerate: 1.4
     seeHidden: 1
     seeFlying: 1
-  - price: 2850
+  - price: 2350
     range: 26
     damage: 20
     firerate: 1

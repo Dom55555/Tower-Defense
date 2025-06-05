@@ -35,6 +35,8 @@ public class TowerManager : MonoBehaviour
     [Header("Extra Info Panel Variables")]
     public TMP_Text moneyPerWaveText;
     public TMP_Text firerateBuffText;
+    public TMP_Text rangeBuffText;
+    public TMP_Text discountBuffText;
     [Header("Other Variables:")]
     public Tower chosenTower;
     public bool placingTower = false;
@@ -45,6 +47,9 @@ public class TowerManager : MonoBehaviour
     private Camera mainCam;
     private int[] farmIncomeByLevel = { 50, 50, 100, 300, 1000 };
     private int[] firerateBuffs = {10,15,20,25,35};
+    private int[] rangeBuffs = { 10, 15, 20, 20, 30 };
+    private int[] discountBuffs = { 0, 0, 0, 10, 20 };
+    private bool DJPlaced = false;
     private int selectedIndex = -1;
 
     void Start()
@@ -63,7 +68,7 @@ public class TowerManager : MonoBehaviour
         moneyText.text = money + "$";
         for (int i = 0; i < 5; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i) && (towers[i].towerName != "DJ" || (towers[i].towerName=="DJ"&&!DJPlaced)))
             {
                 if (!placingTower)
                 {
@@ -117,12 +122,14 @@ public class TowerManager : MonoBehaviour
                 Destroy(realTower.transform.Find("Placement").GetComponent<PlacementCheck>());
                 Tower towerComponent = realTower.GetComponent<Tower>();
                 towerComponent.justPlaced = true;
+                towerComponent.range = towers[selectedIndex].levels[0].range;
                 towerComponent.damage = towers[selectedIndex].levels[0].damage;
                 towerComponent.firerate = towers[selectedIndex].levels[0].firerate;
                 towerComponent.canSeeHiddens = towers[selectedIndex].levels[0].seeHidden;
                 towerComponent.canSeeFlyings = towers[selectedIndex].levels[0].seeFlying;
                 money -= towers[selectedIndex].placePrice;
                 if (towerComponent.towerName == "Farm") moneyPerWave += 50;
+                else if (towerComponent.towerName == "DJ") DJPlaced = true;
                 CancelPlacement();
             }
         }
@@ -143,39 +150,42 @@ public class TowerManager : MonoBehaviour
     {
         if (chosenTower.level == 5) return;
         TowerData.TowerLevel nextLevelInfo = towers.FirstOrDefault(x => x.towerName == chosenTower.towerName).levels[chosenTower.level];
-        if (money >= nextLevelInfo.price)
+        if (money >= Mathf.RoundToInt(nextLevelInfo.price*chosenTower.priceMult))
         {
-            money -= nextLevelInfo.price;
-            chosenTower.transform.Find("Collider").localScale = new Vector3(nextLevelInfo.range,6,nextLevelInfo.range);
-            chosenTower.transform.Find("Range").localScale=new Vector3(nextLevelInfo.range, 0.1f, nextLevelInfo.range);
+            money -= Mathf.RoundToInt(nextLevelInfo.price*chosenTower.priceMult);
+            chosenTower.range = nextLevelInfo.range;
             chosenTower.damage = nextLevelInfo.damage;
             chosenTower.firerate = nextLevelInfo.firerate;
             chosenTower.canSeeHiddens = nextLevelInfo.seeHidden;
             chosenTower.canSeeFlyings = nextLevelInfo.seeFlying;
             chosenTower.level++;
+            chosenTower.ChangeBuffsValues();
             SetInfoVariables();
             SetExtraInfoVariables(true);
         }
     }
     public void TowerSelected(Tower selectedTower)
     {
-        if(chosenTower!=selectedTower && chosenTower!=null)
+        if (chosenTower != selectedTower)
         {
-            chosenTower.transform.Find("Range").gameObject.SetActive(false);
-            if(chosenTower.towerName=="Commander") ToggleBuffText(false);
+            if(chosenTower!=null)
+            {
+                chosenTower.transform.Find("Range").gameObject.SetActive(false);
+                ToggleBuffText(false);
+            }
+            chosenTower = selectedTower;
+            chosenTower.transform.Find("Range").gameObject.SetActive(true);
+            ToggleBuffText(chosenTower.towerName=="Commander" || chosenTower.towerName=="DJ");
+            SetInfoVariables();
+            SetExtraInfoVariables(false);
         }
-        chosenTower = selectedTower;
-        chosenTower.transform.Find("Range").gameObject.SetActive(true);
-        if (chosenTower.towerName == "Commander") ToggleBuffText(true);
-        SetInfoVariables();
-        SetExtraInfoVariables(false);
 
     }
     public void TowerDeselected()
     {
         if (chosenTower == null) return;
         chosenTower.transform.Find("Range").gameObject.SetActive(false);
-        if(chosenTower.towerName=="Commander") ToggleBuffText(false);
+        if(chosenTower.towerName=="Commander" || chosenTower.towerName=="DJ") ToggleBuffText(false);
         chosenTower = null;
     }
     private void SetInfoVariables()
@@ -201,7 +211,7 @@ public class TowerManager : MonoBehaviour
             nextHiddensText.color = levelInfo.seeHidden ?Color.green:Color.red;
             nextFlyingsText.text = levelInfo.seeFlying ? "Yes" : "No";
             nextFlyingsText.color = levelInfo.seeFlying ? Color.green : Color.red;
-            priceText.text = levelInfo.price + "$";
+            priceText.text = Mathf.RoundToInt(levelInfo.price*chosenTower.priceMult) + "$";
         }
         else
         {
@@ -220,14 +230,32 @@ public class TowerManager : MonoBehaviour
         {
             firerateBuffText.text = "+" + firerateBuffs[chosenTower.level - 1] + "%";
         }
+        if(chosenTower.towerName=="DJ")
+        {
+            rangeBuffText.text = "+" + rangeBuffs[chosenTower.level - 1] + "%";
+            discountBuffText.text = "+" + discountBuffs[chosenTower.level - 1] + "%";
+        }
     }
     public void DeleteTower()
     {
         if (chosenTower.towerName == "Farm")
+        {
             moneyPerWave -= farmIncomeByLevel.Take(chosenTower.level).Sum();
+        }
         else if(chosenTower.towerName=="Commander")
         {
             foreach (var tower in chosenTower.towersInRange) tower.firerateMult = 1;
+            ToggleBuffText(false);
+        }
+        else if (chosenTower.towerName=="DJ")
+        {
+            DJPlaced = false;
+            foreach (var tower in chosenTower.towersInRange)
+            {
+                tower.rangeMult = 1;
+                tower.priceMult = 1;
+                tower.ChangeBuffsValues();
+            }
             ToggleBuffText(false);
         }
         Destroy(chosenTower.gameObject);
@@ -261,8 +289,19 @@ public class TowerManager : MonoBehaviour
     {
         foreach (var tower in chosenTower.towersInRange)
         {
-            var textObject = tower.transform.Find("FirerateBuff");
-            textObject.gameObject.SetActive(state);
+            Transform textObject;
+            if(chosenTower.towerName=="Commander")
+            {
+                textObject = tower.transform.Find("FirerateBuff");
+                textObject.gameObject.SetActive(state);
+            }
+            else if (chosenTower.towerName=="DJ")
+            {
+                textObject = tower.transform.Find("RangeBuff");
+                if(textObject!=null) textObject.gameObject.SetActive(state);
+                textObject = tower.transform.Find("DiscountBuff");
+                textObject.gameObject.SetActive(state);
+            }
         }
     }
     public void UseAbility()
