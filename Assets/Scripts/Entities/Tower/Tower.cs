@@ -344,8 +344,9 @@ public class Tower : MonoBehaviour
     {
         GameObject lineObj = new GameObject("AcceleratorTrail");
         lr = lineObj.AddComponent<LineRenderer>();
-        Material mat = new Material(Shader.Find("Unlit/Color"));
-        mat.color = new Color(1.2f, 0f, 1.2f, 1f);
+        //Material mat = new Material(Shader.Find("Unlit/Color"));
+        //mat.color = new Color(1.2f, 0f, 1.2f, 1f);
+        Material mat = Resources.Load<Material>("AcceleratorNeon");
         lr.material = mat;
 
         lr.startWidth = 0.12f;
