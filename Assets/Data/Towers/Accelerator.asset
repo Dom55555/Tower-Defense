@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25e5f3194389e14ca238cda68f444b4, type: 3}
+  m_Name: Accelerator
+  m_EditorClassIdentifier: 
+  towerName: Accelerator
+  placePrice: 5500
+  towerPrefab: {fileID: 1934588187352064384, guid: 86a637cc933d0164f8a6f4a0a9cdaa3d,
+    type: 3}
+  extraPrefab: {fileID: 0}
+  levels:
+  - price: 0
+    range: 14
+    damage: 18
+    firerate: 0.5
+    seeHidden: 1
+    seeFlying: 0
+  - price: 2800
+    range: 16
+    damage: 25
+    firerate: 0.5
+    seeHidden: 1
+    seeFlying: 0
+  - price: 6100
+    range: 18
+    damage: 34
+    firerate: 0.5
+    seeHidden: 1
+    seeFlying: 0
+  - price: 12150
+    range: 20
+    damage: 45
+    firerate: 0.5
+    seeHidden: 1
+    seeFlying: 0
+  - price: 25700
+    range: 24
+    damage: 60
+    firerate: 0.5
+    seeHidden: 1
+    seeFlying: 0

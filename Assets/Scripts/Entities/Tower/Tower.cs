@@ -42,6 +42,9 @@ public class Tower : MonoBehaviour
     private int[] firerateBuffs = new int[5] {10,15,20,25,35};
     private int[] rangeBuffs = new int[5] { 10, 15, 20, 20, 30 };
     private int[] discountBuffs = new int[5] { 0, 0, 0, 10, 20 };
+    //accelerator
+    private bool charged = false;
+    private bool isAcceleratorCharging = false;
 
 
     private void Start()
@@ -84,6 +87,10 @@ public class Tower : MonoBehaviour
                         StartCoroutine(PatrolShooting());
                     }
                     break;
+                case "Accelerator":
+                    StartCoroutine(AcceleratorTargeting());
+                    StartCoroutine(AcceleratorShooting());
+                    break;
                 default: //all other towers
                     StartCoroutine(Targeting());
                     StartCoroutine(Shooting());
@@ -99,6 +106,13 @@ public class Tower : MonoBehaviour
                 currentPoint++;
                 if (currentPoint >= wayPoints.Length) Destroy(gameObject);
             }
+        }
+        if(towerName=="Accelerator" && targetEnemy!=null)
+        {
+            Vector3 direction = targetEnemy.transform.position - transform.position;
+            direction.y = 0;
+            transform.rotation = Quaternion.LookRotation(direction);
+            transform.Rotate(0, 90, 0);
         }
     }
     private void OnDestroy()
@@ -137,7 +151,11 @@ public class Tower : MonoBehaviour
                 float mostHp = 0;
                 foreach (var enemy in enemiesInRange)
                 {
-                    if (enemy.hp+enemy.shieldHp>mostHp)
+                    if (enemy.hp+enemy.shieldHp>mostHp && (
+                        (canSeeHiddens && enemy.status.Contains("Hidden")) ||
+                        (!enemy.status.Contains("Hidden") && enemy.status != "Flying") ||
+                        (canSeeFlyings && enemy.status == "Flying")
+                        ))
                     {
                         mostHp = enemy.hp+enemy.shieldHp;
                         targetEnemy = enemy;
@@ -145,6 +163,54 @@ public class Tower : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(0.1f); 
+        }
+    }
+    private IEnumerator AcceleratorTargeting()
+    {
+        while (true)
+        {
+            if(targetEnemy==null || !enemiesInRange.Contains(targetEnemy))
+            {
+                AcceleratorTargetEnemy();
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+    private void AcceleratorTargetEnemy()
+    {
+        enemiesInRange.RemoveAll(x => x == null);
+        if (enemiesInRange.Count == 0)
+        {
+            targetEnemy = null;
+            charged = false;
+        }
+        if (mode == "First")
+        {
+            float mostWalked = -1;
+            foreach (var enemy in enemiesInRange)
+            {
+                if (enemy.distanceWalked > mostWalked && enemy.status != "Flying")
+                {
+                    mostWalked = enemy.distanceWalked;
+                    targetEnemy = enemy;
+                }
+            }
+        }
+        else if (mode == "Strongest")
+        {
+            float mostHp = 0;
+            foreach (var enemy in enemiesInRange)
+            {
+                if (enemy.hp + enemy.shieldHp > mostHp && enemy.status != "Flying")
+                {
+                    mostHp = enemy.hp + enemy.shieldHp;
+                    targetEnemy = enemy;
+                }
+            }
+        }
+        if(targetEnemy==null)
+        {
+            charged = false;
         }
     }
     private IEnumerator Shooting()
@@ -177,11 +243,69 @@ public class Tower : MonoBehaviour
                     Destroy(targetEnemy.gameObject);
                     targetEnemy = null;
                 }
-                //Debug.Log(firerate*firerateMult+" at " + Time.time);
                 yield return new WaitForSeconds(firerate*firerateMult);
             }
             else yield return new WaitForSeconds(0.05f);
         }
+    }
+    private IEnumerator AcceleratorShooting()
+    {
+        while(true)
+        {
+            if(targetEnemy!=null && !charged && !isAcceleratorCharging)
+            {
+                StartCoroutine(AcceleratorCharging());
+            }
+            if(targetEnemy!=null && charged)
+            {
+                animator.Play("Shoot", -1, 0f);
+                if (targetEnemy.shieldHp > 0)
+                {
+                    if (targetEnemy.shieldHp >= damage) targetEnemy.shieldHp -= damage;
+                    else
+                    {
+                        int shieldDamageMade = targetEnemy.shieldHp;
+                        targetEnemy.shieldHp = 0;
+                        targetEnemy.hp -= damage - shieldDamageMade;
+                    }
+                }
+                else targetEnemy.hp -= damage;
+                if (targetEnemy.hp <= 0)
+                {
+                    enemiesInRange.Remove(targetEnemy);
+                    Destroy(targetEnemy.gameObject);
+                    AcceleratorTargetEnemy();
+                }
+                yield return new WaitForSeconds(firerate * firerateMult);
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.15f);
+            }
+        }
+    }
+    private IEnumerator AcceleratorCharging()
+    {
+        isAcceleratorCharging = true;
+        float timer = 0;
+        while(timer<2f)
+        {
+            timer += 0.5f;
+            animator.Play("Shoot");
+            yield return new WaitForSeconds(0.5f);
+            if(targetEnemy==null)
+            {
+                AcceleratorTargetEnemy();
+                if(targetEnemy==null)
+                {
+                    isAcceleratorCharging = false;
+                    yield break;
+                }
+            }
+        }
+        charged = true;
+        isAcceleratorCharging = false;
+        StartCoroutine(AcceleratorLaser());
     }
     private void RangerTrail()
     {
@@ -213,6 +337,27 @@ public class Tower : MonoBehaviour
             lr.endColor = new Color(startColor.r, startColor.g, startColor.b, alpha);
             time += Time.deltaTime;
             yield return null;
+        }
+        Destroy(lr.gameObject);
+    }
+    private IEnumerator AcceleratorLaser()
+    {
+        GameObject lineObj = new GameObject("AcceleratorTrail");
+        lr = lineObj.AddComponent<LineRenderer>();
+        Material mat = new Material(Shader.Find("Unlit/Color"));
+        mat.color = new Color(1.2f, 0f, 1.2f, 1f);
+        lr.material = mat;
+
+        lr.startWidth = 0.12f;
+        lr.endWidth = 0.12f;
+        lr.numCapVertices = 8;
+        lr.numCornerVertices = 8;
+
+        while (targetEnemy!=null)
+        {
+            lr.SetPosition(0, transform.Find("Gun").Find("Muzzle").position);
+            lr.SetPosition(1, targetEnemy.transform.Find("Target").position);
+            yield return new WaitForSeconds(0.05f);
         }
         Destroy(lr.gameObject);
     }

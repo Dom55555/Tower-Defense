@@ -719,6 +719,7 @@ MonoBehaviour:
   towerName: Ranger
   firerate: 0
   damage: 0
+  range: 0
   canSeeHiddens: 0
   canSeeFlyings: 1
   enemiesInRange: []
@@ -3275,7 +3276,7 @@ MonoBehaviour:
     m_Bits: 512
   invalidLayers:
     serializedVersion: 2
-    m_Bits: 1096
+    m_Bits: 5192
   validPlacement: {fileID: 2100000, guid: dd2a1f4bb13d51e4bab87977c2f63502, type: 2}
   invalidPlacement: {fileID: 2100000, guid: b550a4ccbd853564a85549fa954083d2, type: 2}
 --- !u!54 &8510776848815052611

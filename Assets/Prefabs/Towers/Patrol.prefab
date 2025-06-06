@@ -1769,6 +1769,7 @@ MonoBehaviour:
   towerName: Patrol
   firerate: 45
   damage: 60
+  range: 0
   canSeeHiddens: 0
   canSeeFlyings: 0
   enemiesInRange: []
@@ -2217,7 +2218,7 @@ MonoBehaviour:
     m_Bits: 8
   invalidLayers:
     serializedVersion: 2
-    m_Bits: 1600
+    m_Bits: 5696
   validPlacement: {fileID: 2100000, guid: dd2a1f4bb13d51e4bab87977c2f63502, type: 2}
   invalidPlacement: {fileID: 2100000, guid: b550a4ccbd853564a85549fa954083d2, type: 2}
 --- !u!54 &5854535922027041964
@@ -3105,7 +3106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8646805033738633210
 Transform:
   m_ObjectHideFlags: 0
