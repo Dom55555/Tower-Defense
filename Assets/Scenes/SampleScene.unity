@@ -13250,8 +13250,8 @@ MonoBehaviour:
   timerText: {fileID: 1939520729}
   waveText: {fileID: 1178011861}
   waves:
-  - {fileID: 11400000, guid: 4690dd010b36f24489c1b85da8dd03ea, type: 2}
   - {fileID: 11400000, guid: 9a3f6f4fd6a1c5648a3efe5d64ea1706, type: 2}
+  - {fileID: 11400000, guid: 4690dd010b36f24489c1b85da8dd03ea, type: 2}
   - {fileID: 11400000, guid: 9b6e4efd940748e41acbd935a55aa350, type: 2}
   - {fileID: 11400000, guid: 59b8f1d89265f6b40b59a9595869d394, type: 2}
   - {fileID: 11400000, guid: 07a5e9b6bb60d9c448fa2df162b12e7c, type: 2}

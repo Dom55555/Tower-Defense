@@ -83,3 +83,23 @@ MonoBehaviour:
     amount: 1
     spawnDelay: 0
     delayAfter: 2
+  - enemyPrefab: {fileID: 1025194928365861889, guid: 14d106a85d3c7fa40b8596bd984a6bb6,
+      type: 3}
+    name: Hidden Slime
+    status: Hidden
+    speed: 4
+    hp: 12
+    shieldHp: 0
+    amount: 3
+    spawnDelay: 0.5
+    delayAfter: 1
+  - enemyPrefab: {fileID: 1491000526727127996, guid: 200aa2ead2d9a944684a33d46936fe38,
+      type: 3}
+    name: Heavy Slime
+    status: Boss
+    speed: 2
+    hp: 180
+    shieldHp: 70
+    amount: 2
+    spawnDelay: 2
+    delayAfter: 0

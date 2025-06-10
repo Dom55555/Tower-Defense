@@ -301,7 +301,7 @@ public class Tower : MonoBehaviour
                 {
                     audioSource.clip = shootClip;
                     audioSource.loop = true;
-                    audioSource.Play();
+                    if(!audioSource.isPlaying) audioSource.Play();
                     animator.Play("Shoot", -1, 0f);
                     int dmg = Mathf.RoundToInt(damage * (1 + Mathf.Clamp(damageTimer / 12f,0,1.5f)));
                     if (targetEnemy.shieldHp > 0)
