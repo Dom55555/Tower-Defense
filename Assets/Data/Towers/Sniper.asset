@@ -13,38 +13,44 @@ MonoBehaviour:
   m_Name: Sniper
   m_EditorClassIdentifier: 
   towerName: Sniper
+  towerIcon: {fileID: 21300000, guid: 6172ed849c94a524594ebdc8511af232, type: 3}
+  unlocked: 1
+  unlockPrice: 100
   placePrice: 250
   towerPrefab: {fileID: 6058665193692041983, guid: 8b2f54e0e26211b48b41d060e5378f76,
     type: 3}
   extraPrefab: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: d157a0df94674f245ad53d5009027d2e, type: 3}
+  extraSound1: {fileID: 0}
+  extraSound2: {fileID: 0}
   levels:
   - price: 0
     range: 18
-    damage: 5
-    firerate: 2
+    damage: 3
+    firerate: 2.5
     seeHidden: 0
     seeFlying: 1
   - price: 300
     range: 20
-    damage: 5
-    firerate: 1.6
+    damage: 3
+    firerate: 2
     seeHidden: 0
     seeFlying: 1
   - price: 550
     range: 20
-    damage: 10
-    firerate: 1.5
+    damage: 5
+    firerate: 2
     seeHidden: 0
     seeFlying: 1
   - price: 1100
     range: 22
-    damage: 12
-    firerate: 1.4
+    damage: 10
+    firerate: 1.8
     seeHidden: 1
     seeFlying: 1
   - price: 2350
     range: 26
     damage: 20
-    firerate: 1
+    firerate: 1.5
     seeHidden: 1
     seeFlying: 1

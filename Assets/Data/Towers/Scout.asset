@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Scout
   m_EditorClassIdentifier: 
   towerName: Scout
+  towerIcon: {fileID: 21300000, guid: 2ddcb8ada2a2afc4e881e2a6ef158aa7, type: 3}
+  unlocked: 1
+  unlockPrice: 0
   placePrice: 100
   towerPrefab: {fileID: 861270998405835193, guid: 141291abc079af24695376be93e71f22,
     type: 3}
   extraPrefab: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: ed8b3db0314d5e7418e352e801d75122, type: 3}
+  extraSound1: {fileID: 0}
+  extraSound2: {fileID: 0}
   levels:
   - price: 0
     range: 6

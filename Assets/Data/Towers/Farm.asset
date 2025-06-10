@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Farm
   m_EditorClassIdentifier: 
   towerName: Farm
+  towerIcon: {fileID: 21300000, guid: 244d5e4fbabb60a42be2599a6d1bd7a1, type: 3}
+  unlocked: 1
+  unlockPrice: 350
   placePrice: 250
   towerPrefab: {fileID: 3591488482256811167, guid: e767dc12f26fce3429dd04144946390c,
     type: 3}
   extraPrefab: {fileID: 0}
+  shootSound: {fileID: 0}
+  extraSound1: {fileID: 0}
+  extraSound2: {fileID: 0}
   levels:
   - price: 0
     range: 2.5

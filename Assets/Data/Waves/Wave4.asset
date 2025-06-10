@@ -20,7 +20,7 @@ MonoBehaviour:
     speed: 3
     hp: 4
     shieldHp: 0
-    amount: 3
+    amount: 4
     spawnDelay: 1
     delayAfter: 2
   - enemyPrefab: {fileID: 7036937709484160284, guid: dcbfd0afe808bda41bf9db450d754eff,
@@ -30,6 +30,6 @@ MonoBehaviour:
     speed: 5
     hp: 3
     shieldHp: 0
-    amount: 3
+    amount: 6
     spawnDelay: 1
     delayAfter: 0

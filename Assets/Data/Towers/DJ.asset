@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: DJ
   m_EditorClassIdentifier: 
   towerName: DJ
+  towerIcon: {fileID: 21300000, guid: f194badf2ed8e4b4cac12ee5e71f9d95, type: 3}
+  unlocked: 1
+  unlockPrice: 900
   placePrice: 1250
   towerPrefab: {fileID: 1060805542431613012, guid: bcf560ddd72e6a04ca8019e81f4d2ee5,
     type: 3}
   extraPrefab: {fileID: 0}
+  shootSound: {fileID: 0}
+  extraSound1: {fileID: 0}
+  extraSound2: {fileID: 0}
   levels:
   - price: 0
     range: 10

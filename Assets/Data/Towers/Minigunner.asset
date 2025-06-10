@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Minigunner
   m_EditorClassIdentifier: 
   towerName: Minigunner
+  towerIcon: {fileID: 21300000, guid: 1db9d9531b292fc47bf039dac0de1b96, type: 3}
+  unlocked: 1
+  unlockPrice: 600
   placePrice: 1900
   towerPrefab: {fileID: 7546123863478410941, guid: acde119866e91f149b87cf7ee11d72a8,
     type: 3}
   extraPrefab: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: 746ffaa73d69754419800a5f9246331a, type: 3}
+  extraSound1: {fileID: 0}
+  extraSound2: {fileID: 0}
   levels:
   - price: 0
     range: 12

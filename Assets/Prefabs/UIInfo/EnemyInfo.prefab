@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.3612, y: -0.34799194}
+  m_AnchoredPosition: {x: 0.40398565, y: -0.34799194}
   m_SizeDelta: {x: 72.3264, y: 18.4674}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3891373249239522653
@@ -243,8 +243,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.36983, y: -0.34699792}
-  m_SizeDelta: {x: 0.73965, y: 0.1882}
+  m_AnchoredPosition: {x: 0.4074, y: -0.34699792}
+  m_SizeDelta: {x: 0.75, y: 0.1882}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4570602429216580924
 CanvasRenderer:
@@ -527,7 +527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.3612, y: -0.3479979}
+  m_AnchoredPosition: {x: 0.404, y: -0.3479979}
   m_SizeDelta: {x: 77.977, y: 22.6667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &720415637099681815
@@ -661,7 +661,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1518822621692542618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,7 +710,7 @@ GameObject:
   - component: {fileID: 6579918460838308927}
   - component: {fileID: 8493792428168555784}
   m_Layer: 7
-  m_Name: StatusBar
+  m_Name: StatusText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -732,7 +732,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.3979969, y: -0.34799194}
+  m_AnchoredPosition: {x: -0.392107, y: -0.34799194}
   m_SizeDelta: {x: 72.323, y: 18.466}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6579918460838308927
@@ -763,7 +763,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Boss
+  m_text: Hidden Boss
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -790,8 +790,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -866,8 +866,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.398, y: -0.34799194}
-  m_SizeDelta: {x: 72.3264, y: 18.4674}
+  m_AnchoredPosition: {x: -0.38521436, y: -0.347}
+  m_SizeDelta: {x: 78.219, y: 18.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7570414735886397035
 CanvasRenderer:

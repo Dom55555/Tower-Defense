@@ -11,10 +11,16 @@ public class TowerManager : MonoBehaviour
     public static TowerManager instance;
     [Header("To Set:")]
     public int money = 1000;
+    public TowerData[] allTowers;
     public LayerMask placementLayers;
     public TMP_Text moneyText;
     public Transform wayPointsObject;
-    public TowerData[] towers = new TowerData[5];
+    public TMP_Text towersAmountText;
+    [Header("Sounds:")]
+    public AudioClip upgradeSound;
+    public AudioClip deleteSound;
+    public AudioClip placeSound;
+    public AudioClip pickSound;
     [Header("Tower Info Variables(UI):")]
     public TMP_Text towerName;
     public TMP_Text levelText;
@@ -41,8 +47,10 @@ public class TowerManager : MonoBehaviour
     public Tower chosenTower;
     public bool placingTower = false;
     public int moneyPerWave = 0;
+    public TowerData[] towers = new TowerData[5];
 
     private Transform[] wayPoints;
+    private int towersAmount = 0;
     private GameObject previewTower;
     private Camera mainCam;
     private int[] farmIncomeByLevel = { 50, 50, 100, 300, 1000 };
@@ -61,6 +69,11 @@ public class TowerManager : MonoBehaviour
         {
             wayPoints[wayPointsObject.childCount-i-1] = wayPointsObject.GetChild(i);
         }
+        for (int i = 0; i < 5; i++)
+        {
+            if (PlayerPrefs.GetString("Tower" + i) != "none") towers[i] = allTowers.FirstOrDefault(x => x.towerName == PlayerPrefs.GetString("Tower" + i));
+            else towers[i] = null;
+        }
     }
 
     void Update()
@@ -68,7 +81,7 @@ public class TowerManager : MonoBehaviour
         moneyText.text = money + "$";
         for (int i = 0; i < 5; i++)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1 + i) && (towers[i].towerName != "DJ" || (towers[i].towerName=="DJ"&&!DJPlaced)))
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i) && towers[i]!=null && (towers[i].towerName != "DJ" || (towers[i].towerName=="DJ"&&!DJPlaced)))
             {
                 if (!placingTower)
                 {
@@ -79,7 +92,7 @@ public class TowerManager : MonoBehaviour
                 {
                     CancelPlacement();
                     selectedIndex = i;
-                    SetPreviewTower();
+                    if (money >= towers[selectedIndex].placePrice) SetPreviewTower();
                 }
                 break;
             }
@@ -87,7 +100,7 @@ public class TowerManager : MonoBehaviour
         if (placingTower)
         {
             PreviewPlacement();
-            if (Input.GetMouseButtonDown(0)) TryPlaceTower();
+            if (Input.GetMouseButtonDown(0) && towersAmount<15) TryPlaceTower();
             else if (Input.GetMouseButtonDown(1)) CancelPlacement();
         }
     }
@@ -118,15 +131,19 @@ public class TowerManager : MonoBehaviour
             PlacementCheck check = previewTower.transform.Find("Placement").GetComponent<PlacementCheck>();
             if (check != null && check.IsValidPlacement)
             {
+                towersAmount++;
+                towersAmountText.text = towersAmount + "/15 Towers";
                 GameObject realTower = Instantiate(towers[selectedIndex].towerPrefab, hit.point, Quaternion.identity);
                 Destroy(realTower.transform.Find("Placement").GetComponent<PlacementCheck>());
                 Tower towerComponent = realTower.GetComponent<Tower>();
+                UIFunctions.instance.PlaySound(placeSound);
                 towerComponent.justPlaced = true;
                 towerComponent.range = towers[selectedIndex].levels[0].range;
                 towerComponent.damage = towers[selectedIndex].levels[0].damage;
                 towerComponent.firerate = towers[selectedIndex].levels[0].firerate;
                 towerComponent.canSeeHiddens = towers[selectedIndex].levels[0].seeHidden;
                 towerComponent.canSeeFlyings = towers[selectedIndex].levels[0].seeFlying;
+                realTower.transform.Find("Placement").GetComponent<MeshRenderer>().enabled = false;
                 money -= towers[selectedIndex].placePrice;
                 if (towerComponent.towerName == "Farm") moneyPerWave += 50;
                 else if (towerComponent.towerName == "DJ") DJPlaced = true;
@@ -149,9 +166,10 @@ public class TowerManager : MonoBehaviour
     public void UpgradeTower()
     {
         if (chosenTower.level == 5) return;
-        TowerData.TowerLevel nextLevelInfo = towers.FirstOrDefault(x => x.towerName == chosenTower.towerName).levels[chosenTower.level];
+        TowerData.TowerLevel nextLevelInfo = towers.FirstOrDefault(x => x!=null&&x.towerName == chosenTower.towerName).levels[chosenTower.level];
         if (money >= Mathf.RoundToInt(nextLevelInfo.price*chosenTower.priceMult))
         {
+            UIFunctions.instance.PlaySound(upgradeSound);
             money -= Mathf.RoundToInt(nextLevelInfo.price*chosenTower.priceMult);
             chosenTower.range = nextLevelInfo.range;
             chosenTower.damage = nextLevelInfo.damage;
@@ -173,6 +191,7 @@ public class TowerManager : MonoBehaviour
                 chosenTower.transform.Find("Range").gameObject.SetActive(false);
                 ToggleBuffText(false);
             }
+            UIFunctions.instance.PlaySound(pickSound);
             chosenTower = selectedTower;
             chosenTower.transform.Find("Range").gameObject.SetActive(true);
             ToggleBuffText(chosenTower.towerName=="Commander" || chosenTower.towerName=="DJ");
@@ -192,7 +211,7 @@ public class TowerManager : MonoBehaviour
     {
         towerName.text = chosenTower.towerName;
         levelText.text = chosenTower.level + " Level";
-        TowerData.TowerLevel levelInfo = towers.FirstOrDefault(x => x.towerName == chosenTower.towerName).levels[chosenTower.level-1];
+        TowerData.TowerLevel levelInfo = towers.FirstOrDefault(x => x!=null&&x.towerName == chosenTower.towerName).levels[chosenTower.level-1];
         dmgText.text = levelInfo.damage+" DMG";
         firerateText.text = levelInfo.firerate + " S";
         rangeText.text = levelInfo.range.ToString();
@@ -203,7 +222,7 @@ public class TowerManager : MonoBehaviour
 
         if (chosenTower.level<5)
         {
-            levelInfo = towers.FirstOrDefault(x => x.towerName == chosenTower.towerName).levels[chosenTower.level];
+            levelInfo = towers.FirstOrDefault(x => x!=null && x.towerName == chosenTower.towerName).levels[chosenTower.level];
             nextDmgText.text = levelInfo.damage + " DMG";
             nextFirerateText.text = levelInfo.firerate + " S";
             nextRangeText.text = levelInfo.range.ToString();
@@ -233,7 +252,7 @@ public class TowerManager : MonoBehaviour
         if(chosenTower.towerName=="DJ")
         {
             rangeBuffText.text = "+" + rangeBuffs[chosenTower.level - 1] + "%";
-            discountBuffText.text = "+" + discountBuffs[chosenTower.level - 1] + "%";
+            discountBuffText.text = "-" + discountBuffs[chosenTower.level - 1] + "%";
         }
     }
     public void DeleteTower()
@@ -258,6 +277,10 @@ public class TowerManager : MonoBehaviour
             }
             ToggleBuffText(false);
         }
+        money += towers.FirstOrDefault(x => x != null && x.towerName == chosenTower.towerName).placePrice/2;
+        UIFunctions.instance.PlaySound(deleteSound);
+        towersAmount--;
+        towersAmountText.text = towersAmount + "/15 Towers";
         Destroy(chosenTower.gameObject);
         chosenTower = null;
         UIFunctions.instance.ToggleTowerInfo(false);
@@ -280,6 +303,7 @@ public class TowerManager : MonoBehaviour
         towerComponent.wayPoints = wayPoints;
         towerComponent.justPlaced = true;
         towerComponent.level = level;
+        towerComponent.range = 12;
         towerComponent.damage = patrolInfo.levels[level-1].damage;
         towerComponent.firerate = level==4?0.18f:0.12f;
         towerComponent.canSeeHiddens = level==4?false:true;
@@ -308,18 +332,17 @@ public class TowerManager : MonoBehaviour
     {
         if (chosenTower.timer > 0) return;
         chosenTower.animator.Play("Ability", -1, 0f);
-        if (chosenTower.towerName == "Commander")
+        chosenTower.timer = 30;
+        StartCoroutine(AbilityTimer(chosenTower));
+        foreach (var tower in chosenTower.towersInRange)
         {
-            chosenTower.timer = 30;
-            StartCoroutine(AbilityTimer(chosenTower));
-            foreach (var tower in chosenTower.towersInRange)
+            if(tower!=null)
             {
-                if(tower!=null)
-                {
-                    tower.firerateMult = 1 / (1 + (1f / tower.firerateMult - 1) * 2);
-                }
+                tower.firerateMult = 1 / (1 + 2 * (firerateBuffs[chosenTower.level - 1] / 100f));
+                tower.transform.Find("AbilityRing").gameObject.SetActive(true);
             }
         }
+        
     }
     private IEnumerator AbilityTimer(Tower abilityTower)
     {
@@ -328,7 +351,11 @@ public class TowerManager : MonoBehaviour
         {
             foreach (var tower in abilityTower.towersInRange)
             {
-                if(tower!=null) tower.firerateMult = 1 / (1 + firerateBuffs[abilityTower.level - 1] / 100f);
+                if (tower != null)
+                {
+                    tower.firerateMult = 1 / (1 + firerateBuffs[abilityTower.level - 1] / 100f);
+                    tower.transform.Find("AbilityRing").gameObject.SetActive(false);
+                }
             }
         }
     }

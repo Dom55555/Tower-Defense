@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Ranger
   m_EditorClassIdentifier: 
   towerName: Ranger
+  towerIcon: {fileID: 21300000, guid: 07f345eefedb3214085524596b3d666c, type: 3}
+  unlocked: 1
+  unlockPrice: 1500
   placePrice: 3250
   towerPrefab: {fileID: 1265545434913123181, guid: 570c3c2a1476c9741b1570adb6fed5cd,
     type: 3}
   extraPrefab: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: fd629e4a5c6b0124a918163c8926c628, type: 3}
+  extraSound1: {fileID: 0}
+  extraSound2: {fileID: 0}
   levels:
   - price: 0
     range: 22

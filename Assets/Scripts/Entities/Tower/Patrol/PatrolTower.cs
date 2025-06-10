@@ -13,13 +13,21 @@ public class PatrolTower : MonoBehaviour
     {
         if (other.CompareTag("Enemy") && other.name == "Body")
         {
+            int enemyShield = other.transform.root.GetComponent<Enemy>().shieldHp;
             int enemyHp = other.transform.root.GetComponent<Enemy>().hp;
-            other.transform.root.GetComponent<Enemy>().hp -= Mathf.Clamp(parent.damage,0,enemyHp);
-            if (other.transform.root.GetComponent<Enemy>().hp <= 0)
+            if (parent.damage>=enemyShield)
             {
-                Destroy(other.transform.root.gameObject);
+                other.transform.root.GetComponent<Enemy>().shieldHp = 0;
+                parent.damage -= enemyShield;
+
+                other.transform.root.GetComponent<Enemy>().hp -= Mathf.Clamp(parent.damage, 0, enemyHp);
+                parent.damage -= Mathf.Clamp(enemyHp, 0, parent.damage);
             }
-            parent.damage -= Mathf.Clamp(enemyHp, 0, parent.damage);
+            else
+            {
+                other.transform.root.GetComponent<Enemy>().shieldHp -=parent.damage;
+                parent.damage = 0;
+            }
             if(parent.damage<=0)
             {
                 Destroy(parent.gameObject);

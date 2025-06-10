@@ -13,13 +13,23 @@ MonoBehaviour:
   m_Name: Wave6
   m_EditorClassIdentifier: 
   enemies:
-  - enemyPrefab: {fileID: 6418644077637141731, guid: ed32d870c634aa14d86e7f6e9c6e43fa,
+  - enemyPrefab: {fileID: 5630804556499567228, guid: 45dd0793b817e56448be6843a02b46a7,
       type: 3}
-    name: Slow Slime
+    name: Normal Slime
     status: Normal
-    speed: 1.5
-    hp: 0
+    speed: 3
+    hp: 4
     shieldHp: 0
-    amount: 6
-    spawnDelay: 1.5
+    amount: 10
+    spawnDelay: 1
+    delayAfter: 1
+  - enemyPrefab: {fileID: 7036937709484160284, guid: dcbfd0afe808bda41bf9db450d754eff,
+      type: 3}
+    name: Speedy Slime
+    status: Normal
+    speed: 5
+    hp: 3
+    shieldHp: 0
+    amount: 5
+    spawnDelay: 0.6
     delayAfter: 0

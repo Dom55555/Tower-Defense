@@ -13,11 +13,17 @@ MonoBehaviour:
   m_Name: Patrol
   m_EditorClassIdentifier: 
   towerName: Patrol
+  towerIcon: {fileID: 21300000, guid: 9a47907a25fbdf2498ed61cee45f1603, type: 3}
+  unlocked: 1
+  unlockPrice: 500
   placePrice: 400
   towerPrefab: {fileID: 4425055057587326596, guid: e8a4a06b5f00cbc438788b8dfa1692e3,
     type: 3}
   extraPrefab: {fileID: 1895565303775338312, guid: 618717eaa1fff3c43a090ae0f37d82b9,
     type: 3}
+  shootSound: {fileID: 8300000, guid: ef163c8e4e7745e449a5fba389352125, type: 3}
+  extraSound1: {fileID: 8300000, guid: 186678dbf95509c469460b17d4549fd5, type: 3}
+  extraSound2: {fileID: 0}
   levels:
   - price: 0
     range: 3.65

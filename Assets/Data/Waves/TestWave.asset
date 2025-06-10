@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: TestWave
   m_EditorClassIdentifier: 
   enemies:
-  - enemyPrefab: {fileID: 6418644077637141731, guid: ed32d870c634aa14d86e7f6e9c6e43fa,
+  - enemyPrefab: {fileID: 557856490496375968, guid: a841d93b671336d42b21b713a4d7bc4a,
       type: 3}
-    name: Slow Slime
-    status: Normal
-    speed: 1.5
-    hp: 16
-    shieldHp: 0
-    amount: 4
-    spawnDelay: 2
-    delayAfter: 1
-  - enemyPrefab: {fileID: 1491000526727127996, guid: 200aa2ead2d9a944684a33d46936fe38,
-      type: 3}
-    name: Boss 1
+    name: Final Boss
     status: Boss
-    speed: 2
-    hp: 180
-    shieldHp: 0
+    speed: 0.7
+    hp: 25000
+    shieldHp: 1000
     amount: 1
-    spawnDelay: 0
+    spawnDelay: 1
     delayAfter: 1
+  - enemyPrefab: {fileID: 1929464589872944713, guid: e84917eaecfed6141a5ddb74b3773f70,
+      type: 3}
+    name: Mystery Slime
+    status: ???
+    speed: 4
+    hp: 35
+    shieldHp: 0
+    amount: 5
+    spawnDelay: 1
+    delayAfter: 2

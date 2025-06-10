@@ -20,6 +20,6 @@ MonoBehaviour:
     speed: 1.5
     hp: 16
     shieldHp: 0
-    amount: 4
+    amount: 5
     spawnDelay: 2
     delayAfter: 0

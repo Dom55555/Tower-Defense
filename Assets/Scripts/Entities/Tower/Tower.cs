@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -45,10 +46,33 @@ public class Tower : MonoBehaviour
     //accelerator
     private bool charged = false;
     private bool isAcceleratorCharging = false;
+    private float damageTimer = 0;
+    private bool playedSound = true;
+
+    private AudioSource audioSource;
+    private AudioClip shootClip;
+    private AudioClip chargeClip;
+    private AudioClip stopClip;
+
 
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if(towerName=="PatrolCar")
+        {
+            shootClip = TowerManager.instance.towers.FirstOrDefault(x => x != null && x.towerName == "Patrol").shootSound;
+            stopClip = TowerManager.instance.towers.FirstOrDefault(x => x != null && x.towerName == "Patrol").extraSound1;
+        }
+        else
+        {
+            shootClip = TowerManager.instance.towers.FirstOrDefault(x => x != null && x.towerName == towerName).shootSound;
+            if(towerName=="Accelerator")
+            {
+                chargeClip = TowerManager.instance.towers.FirstOrDefault(x => x != null && x.towerName == towerName).extraSound1;
+                stopClip = TowerManager.instance.towers.FirstOrDefault(x => x != null && x.towerName == towerName).extraSound2;
+            }
+        }
         if (justPlaced == false)
         {
             preview = true;
@@ -113,6 +137,7 @@ public class Tower : MonoBehaviour
             direction.y = 0;
             transform.rotation = Quaternion.LookRotation(direction);
             transform.Rotate(0, 90, 0);
+            damageTimer += Time.deltaTime;
         }
     }
     private void OnDestroy()
@@ -162,6 +187,10 @@ public class Tower : MonoBehaviour
                     }
                 }
             }
+            if(targetEnemy!=null && !enemiesInRange.Contains(targetEnemy))
+            {
+                targetEnemy = null;
+            }
             yield return new WaitForSeconds(0.1f); 
         }
     }
@@ -172,6 +201,12 @@ public class Tower : MonoBehaviour
             if(targetEnemy==null || !enemiesInRange.Contains(targetEnemy))
             {
                 AcceleratorTargetEnemy();
+                if(!playedSound && !charged && !isAcceleratorCharging)
+                {
+                    playedSound = true;
+                    audioSource.clip = stopClip;
+                    audioSource.Play();
+                }
             }
             yield return new WaitForSeconds(0.2f);
         }
@@ -182,7 +217,6 @@ public class Tower : MonoBehaviour
         if (enemiesInRange.Count == 0)
         {
             targetEnemy = null;
-            charged = false;
         }
         if (mode == "First")
         {
@@ -211,6 +245,7 @@ public class Tower : MonoBehaviour
         if(targetEnemy==null)
         {
             charged = false;
+            audioSource.loop = false;
         }
     }
     private IEnumerator Shooting()
@@ -224,15 +259,15 @@ public class Tower : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(direction);
                 transform.Rotate(0,90,0);
 
+                audioSource.PlayOneShot(shootClip);
                 animator.Play("Shoot", -1, 0f);
+
                 if (targetEnemy.shieldHp>0)
                 {
                     if(targetEnemy.shieldHp>=damage) targetEnemy.shieldHp -= damage;
                     else
                     {
-                        int shieldDamageMade = targetEnemy.shieldHp;
                         targetEnemy.shieldHp = 0;
-                        targetEnemy.hp -= damage - shieldDamageMade;
                     }
                 }
                 else targetEnemy.hp -= damage;
@@ -240,7 +275,6 @@ public class Tower : MonoBehaviour
                 if(targetEnemy.hp<=0)
                 {
                     enemiesInRange.Remove(targetEnemy);
-                    Destroy(targetEnemy.gameObject);
                     targetEnemy = null;
                 }
                 yield return new WaitForSeconds(firerate*firerateMult);
@@ -252,35 +286,44 @@ public class Tower : MonoBehaviour
     {
         while(true)
         {
-            if(targetEnemy!=null && !charged && !isAcceleratorCharging)
+            if(targetEnemy!=null)
             {
-                StartCoroutine(AcceleratorCharging());
-            }
-            if(targetEnemy!=null && charged)
-            {
-                animator.Play("Shoot", -1, 0f);
-                if (targetEnemy.shieldHp > 0)
+                playedSound = false;
+                if(!charged)
                 {
-                    if (targetEnemy.shieldHp >= damage) targetEnemy.shieldHp -= damage;
-                    else
+                    if(!isAcceleratorCharging)
                     {
-                        int shieldDamageMade = targetEnemy.shieldHp;
-                        targetEnemy.shieldHp = 0;
-                        targetEnemy.hp -= damage - shieldDamageMade;
+                        StartCoroutine(AcceleratorCharging());
                     }
+                    yield return new WaitForSeconds(0.1f);
                 }
-                else targetEnemy.hp -= damage;
-                if (targetEnemy.hp <= 0)
+                else
                 {
-                    enemiesInRange.Remove(targetEnemy);
-                    Destroy(targetEnemy.gameObject);
-                    AcceleratorTargetEnemy();
+                    audioSource.clip = shootClip;
+                    audioSource.loop = true;
+                    audioSource.Play();
+                    animator.Play("Shoot", -1, 0f);
+                    int dmg = Mathf.RoundToInt(damage * (1 + Mathf.Clamp(damageTimer / 12f,0,1.5f)));
+                    if (targetEnemy.shieldHp > 0)
+                    {
+                        if (targetEnemy.shieldHp >= dmg) targetEnemy.shieldHp -= dmg;
+                        else
+                        {
+                            targetEnemy.shieldHp = 0;
+                        }
+                    }
+                    else targetEnemy.hp -= dmg;
+                    if (targetEnemy.hp <= 0)
+                    {
+                        enemiesInRange.Remove(targetEnemy);
+                        AcceleratorTargetEnemy();
+                    }
+                    yield return new WaitForSeconds(firerate * firerateMult);
                 }
-                yield return new WaitForSeconds(firerate * firerateMult);
             }
             else
             {
-                yield return new WaitForSeconds(0.15f);
+                yield return new WaitForSeconds(0.1f);
             }
         }
     }
@@ -288,6 +331,8 @@ public class Tower : MonoBehaviour
     {
         isAcceleratorCharging = true;
         float timer = 0;
+        audioSource.clip = chargeClip;
+        audioSource.Play();
         while(timer<2f)
         {
             timer += 0.5f;
@@ -299,11 +344,15 @@ public class Tower : MonoBehaviour
                 if(targetEnemy==null)
                 {
                     isAcceleratorCharging = false;
+                    audioSource.clip = stopClip;
+                    audioSource.Play();
                     yield break;
                 }
             }
         }
         charged = true;
+        damageTimer = 0;
+        AcceleratorTargetEnemy();
         isAcceleratorCharging = false;
         StartCoroutine(AcceleratorLaser());
     }
@@ -344,8 +393,6 @@ public class Tower : MonoBehaviour
     {
         GameObject lineObj = new GameObject("AcceleratorTrail");
         lr = lineObj.AddComponent<LineRenderer>();
-        //Material mat = new Material(Shader.Find("Unlit/Color"));
-        //mat.color = new Color(1.2f, 0f, 1.2f, 1f);
         Material mat = Resources.Load<Material>("AcceleratorNeon");
         lr.material = mat;
 
@@ -354,10 +401,13 @@ public class Tower : MonoBehaviour
         lr.numCapVertices = 8;
         lr.numCornerVertices = 8;
 
-        while (targetEnemy!=null)
+        while (charged)
         {
-            lr.SetPosition(0, transform.Find("Gun").Find("Muzzle").position);
-            lr.SetPosition(1, targetEnemy.transform.Find("Target").position);
+            if (targetEnemy != null)
+            {
+                lr.SetPosition(0, transform.Find("Gun").Find("Muzzle").position);
+                lr.SetPosition(1, targetEnemy.transform.Find("Target").position);
+            }
             yield return new WaitForSeconds(0.05f);
         }
         Destroy(lr.gameObject);
@@ -388,21 +438,19 @@ public class Tower : MonoBehaviour
                 soldier.Rotate(0, 90, 0);
 
                 animator.Play("Shoot", -1, 0f);
+                audioSource.PlayOneShot(shootClip);
                 if (targetEnemy.shieldHp > 0)
                 {
                     if (targetEnemy.shieldHp >= 2) targetEnemy.shieldHp -= 2;
                     else
                     {
-                        int shieldDamageMade = targetEnemy.shieldHp;
                         targetEnemy.shieldHp = 0;
-                        targetEnemy.hp -= 2 - shieldDamageMade;
                     }
                 }
                 else targetEnemy.hp -= 2;
                 if (targetEnemy.hp <= 0)
                 {
                     enemiesInRange.Remove(targetEnemy);
-                    Destroy(targetEnemy.gameObject);
                     targetEnemy = null;
                 }
                 yield return new WaitForSeconds(firerate);
@@ -415,7 +463,7 @@ public class Tower : MonoBehaviour
         timer = 2;
         while (true)
         {
-            if(timer>0) timer -= 1;
+            if(timer>0) timer --;
             yield return new WaitForSeconds(1);
         }
     }

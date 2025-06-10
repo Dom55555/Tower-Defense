@@ -26,7 +26,7 @@ public class PatrolCarUI : EntityUI
         transform.position = entityTransform.position;
         transform.LookAt(Camera.main.transform);
         transform.Rotate(0, 180f, 0);
-        maxDamage=TowerManager.instance.towers.FirstOrDefault(x => x.towerName == "Patrol").levels[entityTransform.GetComponent<Tower>().level-1].damage;
+        maxDamage=TowerManager.instance.towers.FirstOrDefault(x => x!=null && x.towerName == "Patrol").levels[entityTransform.GetComponent<Tower>().level-1].damage;
         hpText.text = entityTransform.GetComponent<Tower>().damage + "/" + maxDamage+" HP";
         levelText.text = entityTransform.GetComponent<Tower>().level+" LVL";
 

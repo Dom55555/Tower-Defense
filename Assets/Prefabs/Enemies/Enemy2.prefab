@@ -466,13 +466,13 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5389230197267440475}
+  - {fileID: 5347377927678706955}
   - {fileID: 7714890980194841785}
   - {fileID: 9113312553458757732}
   - {fileID: 7546324204842649133}
   - {fileID: 9217150577168797763}
   - {fileID: 8598858939081376660}
   - {fileID: 1071239963885650487}
-  - {fileID: 5347377927678706955}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1498440109417217610
@@ -489,14 +489,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wayPointsObject: {fileID: 0}
   currentPoint: 0
-  enemyName: 
-  speed: 0
-  maxHp: 0
+  enemyName: Speedy Slime
+  speed: 5
+  maxHp: 3
   maxShield: 0
   hp: 0
   shieldHp: 0
-  status: 
+  status: Normal
   distanceWalked: 0
+  deathEffectPrefab: {fileID: 1342184760497867053, guid: 499af1e7839aae441933fbbbe2a3f5e9,
+    type: 3}
+  slimesPrefabs: []
 --- !u!1 &8536059550253039717
 GameObject:
   m_ObjectHideFlags: 0
