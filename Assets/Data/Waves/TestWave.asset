@@ -33,3 +33,53 @@ MonoBehaviour:
     amount: 5
     spawnDelay: 1
     delayAfter: 2
+  - enemyPrefab: {fileID: 24541257470534641, guid: 5bd8481dd680e944e8febf403673e837,
+      type: 3}
+    name: Baron Slime
+    status: Boss
+    speed: 2
+    hp: 500
+    shieldHp: 0
+    amount: 1
+    spawnDelay: 0
+    delayAfter: 2
+  - enemyPrefab: {fileID: 493332451322590564, guid: 5398fa9ce88cb0946b4b05a2c8a8984e,
+      type: 3}
+    name: Heavy Giant Slime
+    status: Boss
+    speed: 1
+    hp: 3500
+    shieldHp: 500
+    amount: 1
+    spawnDelay: 0
+    delayAfter: 2
+  - enemyPrefab: {fileID: 2718547949902534239, guid: b2daa65f0a77b3d4aaadb4ca1f721c92,
+      type: 3}
+    name: Hidden Giant Slime
+    status: Hidden Boss
+    speed: 3.5
+    hp: 600
+    shieldHp: 0
+    amount: 1
+    spawnDelay: 0
+    delayAfter: 2
+  - enemyPrefab: {fileID: 3111081463378375735, guid: 4dab5651aee119e4fa55fe524b14bca7,
+      type: 3}
+    name: Electric Slime
+    status: Boss
+    speed: 3
+    hp: 900
+    shieldHp: 6000
+    amount: 1
+    spawnDelay: 0
+    delayAfter: 2
+  - enemyPrefab: {fileID: 4324482645283249904, guid: 9f8650c137091db48b94baf0697fb1f0,
+      type: 3}
+    name: Balloon Slime
+    status: Flying
+    speed: 4
+    hp: 15
+    shieldHp: 20
+    amount: 1
+    spawnDelay: 0
+    delayAfter: 2
