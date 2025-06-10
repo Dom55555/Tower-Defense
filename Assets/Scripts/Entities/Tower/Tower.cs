@@ -244,6 +244,7 @@ public class Tower : MonoBehaviour
         }
         if(targetEnemy==null)
         {
+            damageTimer = 0;
             charged = false;
             audioSource.loop = false;
         }

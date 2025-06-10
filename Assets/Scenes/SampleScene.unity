@@ -13251,7 +13251,6 @@ MonoBehaviour:
   waveText: {fileID: 1178011861}
   waves:
   - {fileID: 11400000, guid: 9a3f6f4fd6a1c5648a3efe5d64ea1706, type: 2}
-  - {fileID: 11400000, guid: 4690dd010b36f24489c1b85da8dd03ea, type: 2}
   - {fileID: 11400000, guid: 9b6e4efd940748e41acbd935a55aa350, type: 2}
   - {fileID: 11400000, guid: 59b8f1d89265f6b40b59a9595869d394, type: 2}
   - {fileID: 11400000, guid: 07a5e9b6bb60d9c448fa2df162b12e7c, type: 2}
@@ -13273,6 +13272,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b045669b551b0b64eb5f9794624a3e5f, type: 2}
   - {fileID: 11400000, guid: 12873490a1e053a4fa614979ff4169c8, type: 2}
   - {fileID: 11400000, guid: 236cc832920354548a65be412ae47f49, type: 2}
+  - {fileID: 11400000, guid: 4690dd010b36f24489c1b85da8dd03ea, type: 2}
   waveStartSound: {fileID: 8300000, guid: 76c6e9934262a3545b4b1dc797bf2a29, type: 3}
   intermissionSound: {fileID: 8300000, guid: 2d359fa35427c214ea78f1e062aff4ff, type: 3}
   wave: 0

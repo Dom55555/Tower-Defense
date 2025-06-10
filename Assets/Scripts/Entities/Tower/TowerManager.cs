@@ -81,7 +81,7 @@ public class TowerManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("StartMenu");
+            //SceneManager.LoadScene("StartMenu");
         }
         moneyText.text = money + "$";
         for (int i = 0; i < 5; i++)
